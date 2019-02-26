@@ -22,22 +22,34 @@ function getNumWord(num, word1, word2, word5) {
     }
 }
 
-/** ask number from user
+/** get number from user
  *
- * @returns {number} - number of something which we asked about
+ * @returns {number,null} - null or number of something which we asked about
  */
 function getNumberApples() {
-    let apples;
-    apples = +prompt('Сколько у вас яблок?');
-    while (isNaN(apples) || apples%1) {
-        if (apples%1) {
-            apples = +prompt('Введите целое число! Огрызки не пересчитываем!');
+    let apples = prompt('Сколько у вас яблок?');
+
+    do {
+        if (apples === null) {
+            return apples;
+        } else {
+            apples = +apples;
         }
 
-        if (isNaN(apples)) {
-            apples = +prompt('Введите число, а не текст! Сколько у вас яблок?');
+        switch (true) {
+            case (isNaN(apples)):
+                apples = prompt('Введите число, а не текст! Сколько у вас яблок?');
+                break;
+            case (apples % 1):
+                apples = prompt('Введите целое число! Огрызки - это не яблоки!');
+                break;
+            case (apples < 0):
+                apples = prompt('Количество не может быть отрицательным! Сколько у вас яблок?');
+                break;
         }
-    }
+
+    } while ( !Number.isInteger(apples) || apples < 0 );
+
     return apples;
 }
 
@@ -46,5 +58,10 @@ function getNumberApples() {
  */
 function displayResult() {
     let apples = getNumberApples();
-    alert('У вас ' + apples + ' ' + getNumWord(apples, 'яблоко', 'яблока', 'яблок') + '!');
+
+    if (apples === null) {
+        alert ('Не хочешь говорить - ну и не надо...');
+    } else {
+        alert('У вас ' + apples + ' ' + getNumWord(apples, 'яблоко', 'яблока', 'яблок') + '!');
+    }
 }

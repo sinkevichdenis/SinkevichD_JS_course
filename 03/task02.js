@@ -138,6 +138,7 @@ function showAgeData(profile) {
 	return result;
 }
 
+/* exported showProfile */
 /** show user's profile in alert
  *
  */

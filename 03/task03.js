@@ -51,6 +51,7 @@ function showResult(boolean) {
 	alert(boolean ? 'Yes. It is palindrome.' : 'No. It is simple string.');
 }
 
+/* exported isPalindrome1 */
 /** check if string was palindrome
  *
  */
@@ -59,6 +60,7 @@ function isPalindrome1() {
 	showResult(str.split('').reverse().join('') === str);
 }
 
+/* exported isPalindrome2 */
 /** check if string was palindrome
  *
  */
@@ -76,6 +78,7 @@ function isPalindrome2() {
 	showResult(resultBool);
 }
 
+/* exported isPalindrome3 */
 /** check if string was palindrome
  *
  */
@@ -89,6 +92,7 @@ function isPalindrome3() {
 	showResult(reverseStr === str);
 }
 
+/* exported isPalindrome4 */
 /** check if string was palindrome
  *
  */

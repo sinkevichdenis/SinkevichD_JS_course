@@ -55,6 +55,7 @@ function getNumberApples(question) {
 	return apples;
 }
 
+/* exported showWordFormResult */
 /** display result with word's forms with help alert window
  *
  */

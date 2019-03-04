@@ -23,6 +23,7 @@ function getNumWord(num, word1, word2, word5) {
 		return word5;
 	}
 }
+
 /** get number from user
  *
  * @param question (string) - default question for prompt

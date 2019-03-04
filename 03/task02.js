@@ -39,7 +39,7 @@ function getAge(question) {
 		case (num % 1 > 0):
 			num = prompt(question + ' Введите количество полных лет!!!');
 			break;
-		case (num <= 0 || num > 120):
+		case (num <= 0 || num >= 120):
 			num = prompt('Что-то с трудом в это верится. ' + question);
 			break;
 		}

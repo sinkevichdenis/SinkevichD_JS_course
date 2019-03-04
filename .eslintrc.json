@@ -32,7 +32,11 @@
         "getAge": "false",
         "isMan": "false",
         "getAge": "false",
-        "getNameData": "false"
+        "positiveSum": "false",
+        "evenOrOdd": "false",
+        "centuryFromYear": "false",
+        "getNameData": "false",
+        "arrayDiff": "false"
     },
     "parserOptions": {
         "ecmaVersion": 2018

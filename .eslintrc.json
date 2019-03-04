@@ -14,7 +14,25 @@
 
         "getNumberApples": "false",
         "getNumWord": "false",
-        "showWordFormResult": "false"
+        "showWordFormResult": "false",
+        "getNumberApples": "false",
+        "getNumWord": "false",
+        "showWordFormResult": "false",
+        "isPalindrome2": "false",
+        "showResult": "false",
+        "deleteSpaces": "false",
+        "isGoodString": "false",
+        "getString": "false",
+        "showProfile": "false",
+        "createProfile": "false",
+        "isRetired": "false",
+        "showAgeData": "false",
+        "showRetired": "false",
+        "showSex": "false",
+        "getAge": "false",
+        "isMan": "false",
+        "getAge": "false",
+        "getNameData": "false"
     },
     "parserOptions": {
         "ecmaVersion": 2018

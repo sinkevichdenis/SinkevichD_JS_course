@@ -287,7 +287,7 @@ describe('task02.js -> showRetired -> test showing user is retired', function ()
 		spyOn(window, 'isRetired').and.returnValue(false);
 		showRetired();
 		expect(testFunction('')).toEqual('Нет');
-	})
+	});
 
 });
 
@@ -325,7 +325,7 @@ describe('task02.js -> createProfile -> test creation profile object', function 
 		spyOn(window, 'getAge').and.returnValue(10);
 		spyOn(window, 'isMan').and.returnValue(true);
 		expect(createProfile()).toEqual(example);
-	})
+	});
 });
 
 describe('task02.js -> showProfile -> test showing result profile', function () {
@@ -337,12 +337,11 @@ describe('task02.js -> showProfile -> test showing result profile', function () 
 		'sex': true,
 	};
 	let testFunction = showProfile;
-	let result;
 
 	it('should create profile object', function() {
 		spyOn(window, 'createProfile').and.returnValue(example);
 		spyOn(window, 'alert');
-		result = testFunction();
+		testFunction();
 		expect(alert).toHaveBeenCalled();
 	});
 });

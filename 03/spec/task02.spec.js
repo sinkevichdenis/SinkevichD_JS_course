@@ -1,9 +1,21 @@
 'use strict';
 
+/*let isFirstCall = false;
+let fakePosValue;
+let fakeNegValue;
+
+function fakeFunc() {
+	let result = isFirstCall ? fakePosValue : fakeNegValue;
+	isFirstCall = true;
+	return result;
+}
+
+ These variables and function have been declared in task01.spec.js
+*/
+
 describe('task02.js -> getNameData -> test getting name (string) from user', function (){
 	let value;
 	let result;
-	let isFirstCall;
 	let testFunction = getNameData;
 
 	beforeEach(function() {
@@ -21,13 +33,10 @@ describe('task02.js -> getNameData -> test getting name (string) from user', fun
 	});
 
 	it('should work with number', function() {
-		value = 10;
+		fakePosValue = 'name';
+		fakeNegValue = 10;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 'name' : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -35,13 +44,10 @@ describe('task02.js -> getNameData -> test getting name (string) from user', fun
 	});
 
 	it('should work with null', function() {
-		value = null;
+		fakePosValue = 'name';
+		fakeNegValue = null;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 'name' : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -49,13 +55,10 @@ describe('task02.js -> getNameData -> test getting name (string) from user', fun
 	});
 
 	it('should work with empty string', function() {
-		value = '';
+		fakePosValue = 'name';
+		fakeNegValue = '';
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 'name' : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -63,13 +66,10 @@ describe('task02.js -> getNameData -> test getting name (string) from user', fun
 	});
 
 	it('should work with string contained only spaces', function() {
-		value = '    ';
+		fakePosValue = 'name';
+		fakeNegValue = '      ';
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 'name' : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -77,10 +77,10 @@ describe('task02.js -> getNameData -> test getting name (string) from user', fun
 	});
 });
 
+
 describe('task02.js -> getAge -> test getting Age (number) from user', function (){
 	let value;
 	let result;
-	let isFirstCall;
 	let testFunction = getAge;
 
 	beforeEach(function() {
@@ -119,13 +119,10 @@ describe('task02.js -> getAge -> test getting Age (number) from user', function 
 	});
 
 	it('should work with NaN', function() {
-		value = 'some text';
+		fakePosValue = 45;
+		fakeNegValue = 'some text';
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -133,13 +130,10 @@ describe('task02.js -> getAge -> test getting Age (number) from user', function 
 	});
 
 	it('should work with floating point', function() {
-		value = 15.5;
+		fakePosValue = 45;
+		fakeNegValue = 15.5;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -147,13 +141,10 @@ describe('task02.js -> getAge -> test getting Age (number) from user', function 
 	});
 
 	it('should work with number <= 0 (check 0)', function() {
-		value = 0;
+		fakePosValue = 45;
+		fakeNegValue = 0;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -161,13 +152,10 @@ describe('task02.js -> getAge -> test getting Age (number) from user', function 
 	});
 
 	it('should work with number <= 0 (check 1)', function() {
-		value = 1;
+		fakePosValue = 45;
+		fakeNegValue = 1;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(1);
@@ -175,13 +163,10 @@ describe('task02.js -> getAge -> test getting Age (number) from user', function 
 	});
 
 	it('should work with number >= 120 (check 120)', function() {
-		value = 120;
+		fakePosValue = 45;
+		fakeNegValue = 120;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -189,13 +174,10 @@ describe('task02.js -> getAge -> test getting Age (number) from user', function 
 	});
 
 	it('should work with number >= 120 (check 119)', function() {
-		value = 119;
+		fakePosValue = 45;
+		fakeNegValue = 119;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(1);

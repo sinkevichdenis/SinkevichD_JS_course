@@ -1,47 +1,56 @@
 'use strict';
 
+let isFirstCall = false;
+let fakePosValue;
+let fakeNegValue;
+
+function fakeFunc() {
+	let result = isFirstCall ? fakePosValue : fakeNegValue;
+	isFirstCall = true;
+	return result;
+}
+
 describe('task01.js -> getNumWord -> test getting word forms', function () {
 	let word1 = 'word1';
 	let word2 = 'word2';
 	let word5 = 'word5';
-	let result = (num) => getNumWord(num, word1, word2, word5);
+	let testFunction = (num) => getNumWord(num, word1, word2, word5);
 
 	it('should return word1', function() {
-		expect(result(1)).toEqual(word1);
-		expect(result(101)).toEqual(word1);
+		expect(testFunction(1)).toEqual(word1);
+		expect(testFunction(101)).toEqual(word1);
 	});
 
 	it('should return word2', function() {
-		expect(result(2)).toEqual(word2);
-		expect(result(3)).toEqual(word2);
-		expect(result(4)).toEqual(word2);
-		expect(result(22)).toEqual(word2);
-		expect(result(33)).toEqual(word2);
-		expect(result(44)).toEqual(word2);
-		expect(result(102)).toEqual(word2);
-		expect(result(203)).toEqual(word2);
-		expect(result(304)).toEqual(word2);
+		expect(testFunction(2)).toEqual(word2);
+		expect(testFunction(3)).toEqual(word2);
+		expect(testFunction(4)).toEqual(word2);
+		expect(testFunction(22)).toEqual(word2);
+		expect(testFunction(33)).toEqual(word2);
+		expect(testFunction(44)).toEqual(word2);
+		expect(testFunction(102)).toEqual(word2);
+		expect(testFunction(203)).toEqual(word2);
+		expect(testFunction(304)).toEqual(word2);
 	});
 
 	it('should return word5', function() {
-		expect(result(11)).toEqual(word5);
-		expect(result(15)).toEqual(word5);
-		expect(result(19)).toEqual(word5);
-		expect(result(111)).toEqual(word5);
-		expect(result(215)).toEqual(word5);
-		expect(result(319)).toEqual(word5);
-		expect(result(0)).toEqual(word5);
-		expect(result(20)).toEqual(word5);
-		expect(result(45)).toEqual(word5);
-		expect(result(-5)).toEqual(word5);
-		expect(result(-1)).toEqual(word5);
+		expect(testFunction(11)).toEqual(word5);
+		expect(testFunction(15)).toEqual(word5);
+		expect(testFunction(19)).toEqual(word5);
+		expect(testFunction(111)).toEqual(word5);
+		expect(testFunction(215)).toEqual(word5);
+		expect(testFunction(319)).toEqual(word5);
+		expect(testFunction(0)).toEqual(word5);
+		expect(testFunction(20)).toEqual(word5);
+		expect(testFunction(45)).toEqual(word5);
+		expect(testFunction(-5)).toEqual(word5);
+		expect(testFunction(-1)).toEqual(word5);
 	});
 });
 
 describe('task01.js -> getNumberApples -> test getting number from user', function () {
 	let value;
 	let result;
-	let isFirstCall;
 	let testFunction = getNumberApples;
 
 	beforeEach(function() {
@@ -79,13 +88,10 @@ describe('task01.js -> getNumberApples -> test getting number from user', functi
 	});
 
 	it('should work with NaN', function() {
-		value = 'some text';
+		fakePosValue = 45;
+		fakeNegValue = 'some text';
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -93,13 +99,10 @@ describe('task01.js -> getNumberApples -> test getting number from user', functi
 	});
 
 	it('should work with floating point', function() {
-		value = 15.5;
+		fakePosValue = 45;
+		fakeNegValue = 15.5;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);
@@ -107,13 +110,10 @@ describe('task01.js -> getNumberApples -> test getting number from user', functi
 	});
 
 	it('should work with negative number', function() {
-		value = -10;
+		fakePosValue = 45;
+		fakeNegValue = -10;
 
-		spyOn(window, 'prompt').and.callFake(function() {
-			let result = isFirstCall ? 45 : value;
-			isFirstCall = true;
-			return result;
-		});
+		spyOn(window, 'prompt').and.callFake(fakeFunc);
 		result = testFunction('');
 
 		expect(window.prompt.calls.count()).toEqual(2);

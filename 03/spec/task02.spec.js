@@ -1,329 +1,328 @@
 'use strict';
+(function() {
 
-/*let isFirstCall = false;
-let fakePosValue;
-let fakeNegValue;
+	let isFirstCall = false;
+	let fakePosValue;
+	let fakeNegValue;
 
-function fakeFunc() {
-	let result = isFirstCall ? fakePosValue : fakeNegValue;
-	isFirstCall = true;
-	return result;
-}
+	function fakeFunc() {
+		let result = isFirstCall ? fakePosValue : fakeNegValue;
+		isFirstCall = true;
+		return result;
+	}
 
- These variables and function have been declared in task01.spec.js
-*/
+	describe('task02.js -> getNameData -> test getting name (string) from user', function (){
+		let value;
+		let result;
+		let testFunction = getNameData;
 
-describe('task02.js -> getNameData -> test getting name (string) from user', function (){
-	let value;
-	let result;
-	let testFunction = getNameData;
+		beforeEach(function() {
+			value = null;
+			isFirstCall = false;
+		});
 
-	beforeEach(function() {
-		value = null;
-		isFirstCall = false;
+		it('should work with string', function() {
+			value = 'string';
+
+			spyOn(window, 'prompt').and.returnValue(value);
+			result = testFunction('');
+			expect(window.prompt.calls.count()).toEqual(1);
+			expect(result).toEqual(value);
+		});
+
+		it('should work with number', function() {
+			fakePosValue = 'name';
+			fakeNegValue = 10;
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			result = testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(2);
+			expect(result).toEqual(jasmine.any(String));
+		});
+
+		it('should work with null', function() {
+			fakePosValue = 'name';
+			fakeNegValue = null;
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			result = testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(2);
+			expect(result).toEqual(jasmine.any(String));
+		});
+
+		it('should work with empty string', function() {
+			fakePosValue = 'name';
+			fakeNegValue = '';
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			result = testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(2);
+			expect(result).toEqual(jasmine.any(String));
+		});
+
+		it('should work with string contained only spaces', function() {
+			fakePosValue = 'name';
+			fakeNegValue = '      ';
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			result = testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(2);
+			expect(result).toEqual(jasmine.any(String));
+		});
 	});
 
-	it('should work with string', function() {
-		value = 'string';
 
-		spyOn(window, 'prompt').and.returnValue(value);
-		result = testFunction('');
-		expect(window.prompt.calls.count()).toEqual(1);
-		expect(result).toEqual(value);
+	describe('task02.js -> getAge -> test getting Age (number) from user', function (){
+		let value;
+		let result;
+		let testFunction = getAge;
+
+		beforeEach(function() {
+			value = null;
+			isFirstCall = false;
+		});
+
+		it('should work with and return integer number', function() {
+			value = 50;
+
+			spyOn(window, 'prompt').and.returnValue(value);
+			result = testFunction('');
+
+			expect(window.prompt).toHaveBeenCalled();
+			expect(result).toEqual(value);
+		});
+
+		it('should work with number in string', function() {
+			value = '10';
+
+			spyOn(window, 'prompt').and.returnValue(value);
+			result = testFunction('');
+
+			expect(window.prompt).toHaveBeenCalled();
+			expect(result).toEqual(+value);
+		});
+
+		it('should work with null', function() {
+			value = null;
+
+			spyOn(window, 'prompt').and.returnValue(value);
+			result = testFunction('');
+
+			expect(window.prompt).toHaveBeenCalled();
+			expect(result).toEqual('Unknown');
+		});
+
+		it('should work with NaN', function() {
+			fakePosValue = 45;
+			fakeNegValue = 'some text';
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(2);
+			expect(window.prompt.calls.argsFor(1)).toEqual(['Введите число, а не текст! ']);
+		});
+
+		it('should work with floating point', function() {
+			fakePosValue = 45;
+			fakeNegValue = 15.5;
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(2);
+			expect(window.prompt.calls.argsFor(1)).toEqual([' Введите количество полных лет!!!']);
+		});
+
+		it('should work with number <= 0 (check 0)', function() {
+			fakePosValue = 45;
+			fakeNegValue = 0;
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			result = testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(2);
+			expect(window.prompt.calls.argsFor(1)).toEqual(['Что-то с трудом в это верится. ']);
+		});
+
+		it('should work with number <= 0 (check 1)', function() {
+			fakePosValue = 45;
+			fakeNegValue = 1;
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			result = testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(1);
+			expect(window.prompt.calls.argsFor(1)).not.toEqual(['Что-то с трудом в это верится. ']);
+		});
+
+		it('should work with number >= 120 (check 120)', function() {
+			fakePosValue = 45;
+			fakeNegValue = 120;
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			result = testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(2);
+			expect(window.prompt.calls.argsFor(1)).toEqual(['Что-то с трудом в это верится. ']);
+		});
+
+		it('should work with number >= 120 (check 119)', function() {
+			fakePosValue = 45;
+			fakeNegValue = 119;
+
+			spyOn(window, 'prompt').and.callFake(fakeFunc);
+			result = testFunction('');
+
+			expect(window.prompt.calls.count()).toEqual(1);
+			expect(window.prompt.calls.argsFor(1)).not.toEqual(['Что-то с трудом в это верится. ']);
+		});
 	});
 
-	it('should work with number', function() {
-		fakePosValue = 'name';
-		fakeNegValue = 10;
+	describe('task02.js -> isMan -> test getting sex from user', function (){
+		let testFunction = isMan;
 
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		result = testFunction('');
+		it('should return true', function() {
+			spyOn(window, 'confirm').and.returnValue(true);
+			expect(testFunction('')).toBeTruthy();
+			expect(confirm).toHaveBeenCalled();
+		});
 
-		expect(window.prompt.calls.count()).toEqual(2);
-		expect(result).toEqual(jasmine.any(String));
+		it('should return false', function() {
+			spyOn(window, 'confirm').and.returnValue(false);
+			expect(testFunction('')).toBeFalsy();
+			expect(confirm).toHaveBeenCalled();
+		});
+
 	});
 
-	it('should work with null', function() {
-		fakePosValue = 'name';
-		fakeNegValue = null;
+	describe('task02.js -> showSex -> test showing user sex', function (){
+		let testFunction = showSex;
+		let profile = {};
 
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		result = testFunction('');
+		beforeEach(function(){
+			profile.sex = true;
+		});
 
-		expect(window.prompt.calls.count()).toEqual(2);
-		expect(result).toEqual(jasmine.any(String));
+		it('should return true', function(){
+			expect(testFunction(profile)).toBe('Мужчина');
+		});
+
+		it('should return false', function() {
+			profile.sex = false;
+			expect(testFunction(profile)).toBe('Женщина');
+		});
+
 	});
 
-	it('should work with empty string', function() {
-		fakePosValue = 'name';
-		fakeNegValue = '';
+	describe('task02.js -> isRetired -> test user age for retire', function (){
+		let testFunction = isRetired;
+		let profile = {};
 
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		result = testFunction('');
+		beforeEach(function(){
+			profile.sex = null;
+			profile.age = null;
+		});
 
-		expect(window.prompt.calls.count()).toEqual(2);
-		expect(result).toEqual(jasmine.any(String));
+		it('should return retired man', function(){
+			profile.sex = true;
+			profile.age = 63;
+			expect(testFunction(profile)).toBeTruthy();
+		});
+
+		it('should return NOT retired man', function(){
+			profile.sex = true;
+			profile.age = 62;
+			expect(testFunction(profile)).toBeFalsy();
+		});
+
+		it('should return retired woman', function(){
+			profile.sex = false;
+			profile.age = 58;
+			expect(testFunction(profile)).toBeTruthy();
+		});
+
+		it('should return NOT retired woman', function(){
+			profile.sex = false;
+			profile.age = 57;
+			expect(testFunction(profile)).toBeFalsy();
+		});
+
 	});
 
-	it('should work with string contained only spaces', function() {
-		fakePosValue = 'name';
-		fakeNegValue = '      ';
+	describe('task02.js -> showRetired -> test showing user is retired', function () {
+		let testFunction = showRetired;
 
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		result = testFunction('');
+		it('should return true', function() {
+			spyOn(window, 'isRetired').and.returnValue(true);
+			showRetired();
+			expect(testFunction('')).toEqual('Да');
+		});
 
-		expect(window.prompt.calls.count()).toEqual(2);
-		expect(result).toEqual(jasmine.any(String));
-	});
-});
+		it('should return false', function() {
+			spyOn(window, 'isRetired').and.returnValue(false);
+			showRetired();
+			expect(testFunction('')).toEqual('Нет');
+		});
 
-
-describe('task02.js -> getAge -> test getting Age (number) from user', function (){
-	let value;
-	let result;
-	let testFunction = getAge;
-
-	beforeEach(function() {
-		value = null;
-		isFirstCall = false;
 	});
 
-	it('should work with and return integer number', function() {
-		value = 50;
+	describe('task02.js -> showAgeData -> test user age for retire', function () {
+		let testFunction = showAgeData;
+		let profile = {};
 
-		spyOn(window, 'prompt').and.returnValue(value);
-		result = testFunction('');
+		beforeEach(function(){
+			profile.age = null;
+		});
 
-		expect(window.prompt).toHaveBeenCalled();
-		expect(result).toEqual(value);
+		it('should return unknown age', function() {
+			profile.age = 'string';
+			expect(testFunction(profile)).not.toContain('Через');
+		});
+
+		it('should return normal age', function() {
+			profile.age = 50;
+			expect(testFunction(profile)).toContain('Через');
+		});
+
 	});
 
-	it('should work with number in string', function() {
-		value = '10';
+	describe('task02.js -> createProfile -> test creation profile object', function (){
+		let example = {
+			'surname': 'string',
+			'name': 'string',
+			'fatherName': 'string',
+			'age': 10,
+			'sex': true,
+		};
 
-		spyOn(window, 'prompt').and.returnValue(value);
-		result = testFunction('');
-
-		expect(window.prompt).toHaveBeenCalled();
-		expect(result).toEqual(+value);
+		it('should create profile object', function() {
+			spyOn(window, 'getNameData').and.returnValue('string');
+			spyOn(window, 'getAge').and.returnValue(10);
+			spyOn(window, 'isMan').and.returnValue(true);
+			expect(createProfile()).toEqual(example);
+		});
 	});
 
-	it('should work with null', function() {
-		value = null;
+	describe('task02.js -> showProfile -> test showing result profile', function () {
+		let example = {
+			'surname': 'string',
+			'name': 'string',
+			'fatherName': 'string',
+			'age': 10,
+			'sex': true,
+		};
+		let testFunction = showProfile;
 
-		spyOn(window, 'prompt').and.returnValue(value);
-		result = testFunction('');
-
-		expect(window.prompt).toHaveBeenCalled();
-		expect(result).toEqual('Unknown');
+		it('should create profile object', function() {
+			spyOn(window, 'createProfile').and.returnValue(example);
+			spyOn(window, 'alert');
+			testFunction();
+			expect(alert).toHaveBeenCalled();
+		});
 	});
-
-	it('should work with NaN', function() {
-		fakePosValue = 45;
-		fakeNegValue = 'some text';
-
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		testFunction('');
-
-		expect(window.prompt.calls.count()).toEqual(2);
-		expect(window.prompt.calls.argsFor(1)).toEqual(['Введите число, а не текст! ']);
-	});
-
-	it('should work with floating point', function() {
-		fakePosValue = 45;
-		fakeNegValue = 15.5;
-
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		testFunction('');
-
-		expect(window.prompt.calls.count()).toEqual(2);
-		expect(window.prompt.calls.argsFor(1)).toEqual([' Введите количество полных лет!!!']);
-	});
-
-	it('should work with number <= 0 (check 0)', function() {
-		fakePosValue = 45;
-		fakeNegValue = 0;
-
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		result = testFunction('');
-
-		expect(window.prompt.calls.count()).toEqual(2);
-		expect(window.prompt.calls.argsFor(1)).toEqual(['Что-то с трудом в это верится. ']);
-	});
-
-	it('should work with number <= 0 (check 1)', function() {
-		fakePosValue = 45;
-		fakeNegValue = 1;
-
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		result = testFunction('');
-
-		expect(window.prompt.calls.count()).toEqual(1);
-		expect(window.prompt.calls.argsFor(1)).not.toEqual(['Что-то с трудом в это верится. ']);
-	});
-
-	it('should work with number >= 120 (check 120)', function() {
-		fakePosValue = 45;
-		fakeNegValue = 120;
-
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		result = testFunction('');
-
-		expect(window.prompt.calls.count()).toEqual(2);
-		expect(window.prompt.calls.argsFor(1)).toEqual(['Что-то с трудом в это верится. ']);
-	});
-
-	it('should work with number >= 120 (check 119)', function() {
-		fakePosValue = 45;
-		fakeNegValue = 119;
-
-		spyOn(window, 'prompt').and.callFake(fakeFunc);
-		result = testFunction('');
-
-		expect(window.prompt.calls.count()).toEqual(1);
-		expect(window.prompt.calls.argsFor(1)).not.toEqual(['Что-то с трудом в это верится. ']);
-	});
-});
-
-describe('task02.js -> isMan -> test getting sex from user', function (){
-	let testFunction = isMan;
-
-	it('should return true', function() {
-		spyOn(window, 'confirm').and.returnValue(true);
-		expect(testFunction('')).toBeTruthy();
-		expect(confirm).toHaveBeenCalled();
-	});
-
-	it('should return false', function() {
-		spyOn(window, 'confirm').and.returnValue(false);
-		expect(testFunction('')).toBeFalsy();
-		expect(confirm).toHaveBeenCalled();
-	});
-
-});
-
-describe('task02.js -> showSex -> test showing user sex', function (){
-	let testFunction = showSex;
-	let profile = {};
-
-	beforeEach(function(){
-		profile.sex = true;
-	});
-
-	it('should return true', function(){
-		expect(testFunction(profile)).toBe('Мужчина');
-	});
-
-	it('should return false', function() {
-		profile.sex = false;
-		expect(testFunction(profile)).toBe('Женщина');
-	});
-
-});
-
-describe('task02.js -> isRetired -> test user age for retire', function (){
-	let testFunction = isRetired;
-	let profile = {};
-
-	beforeEach(function(){
-		profile.sex = null;
-		profile.age = null;
-	});
-
-	it('should return retired man', function(){
-		profile.sex = true;
-		profile.age = 63;
-		expect(testFunction(profile)).toBeTruthy();
-	});
-
-	it('should return NOT retired man', function(){
-		profile.sex = true;
-		profile.age = 62;
-		expect(testFunction(profile)).toBeFalsy();
-	});
-
-	it('should return retired woman', function(){
-		profile.sex = false;
-		profile.age = 58;
-		expect(testFunction(profile)).toBeTruthy();
-	});
-
-	it('should return NOT retired woman', function(){
-		profile.sex = false;
-		profile.age = 57;
-		expect(testFunction(profile)).toBeFalsy();
-	});
-
-});
-
-describe('task02.js -> showRetired -> test showing user is retired', function () {
-	let testFunction = showRetired;
-
-	it('should return true', function() {
-		spyOn(window, 'isRetired').and.returnValue(true);
-		showRetired();
-		expect(testFunction('')).toEqual('Да');
-	});
-
-	it('should return false', function() {
-		spyOn(window, 'isRetired').and.returnValue(false);
-		showRetired();
-		expect(testFunction('')).toEqual('Нет');
-	});
-
-});
-
-describe('task02.js -> showAgeData -> test user age for retire', function () {
-	let testFunction = showAgeData;
-	let profile = {};
-
-	beforeEach(function(){
-		profile.age = null;
-	});
-
-	it('should return unknown age', function() {
-		profile.age = 'string';
-		expect(testFunction(profile)).not.toContain('Через');
-	});
-
-	it('should return normal age', function() {
-		profile.age = 50;
-		expect(testFunction(profile)).toContain('Через');
-	});
-
-});
-
-describe('task02.js -> createProfile -> test creation profile object', function (){
-	let example = {
-		'surname': 'string',
-		'name': 'string',
-		'fatherName': 'string',
-		'age': 10,
-		'sex': true,
-	};
-
-	it('should create profile object', function() {
-		spyOn(window, 'getNameData').and.returnValue('string');
-		spyOn(window, 'getAge').and.returnValue(10);
-		spyOn(window, 'isMan').and.returnValue(true);
-		expect(createProfile()).toEqual(example);
-	});
-});
-
-describe('task02.js -> showProfile -> test showing result profile', function () {
-	let example = {
-		'surname': 'string',
-		'name': 'string',
-		'fatherName': 'string',
-		'age': 10,
-		'sex': true,
-	};
-	let testFunction = showProfile;
-
-	it('should create profile object', function() {
-		spyOn(window, 'createProfile').and.returnValue(example);
-		spyOn(window, 'alert');
-		testFunction();
-		expect(alert).toHaveBeenCalled();
-	});
-});
+})();

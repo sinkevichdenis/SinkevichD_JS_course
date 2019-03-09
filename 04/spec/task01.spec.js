@@ -22,32 +22,49 @@ describe('task01.js -> doDivision -> divide Num1 on Num2 and show result', funct
 	});
 });
 
-describe('task01.js -> censor -> count all vowels in string', function() {
+describe('task01.js -> countVowels -> count all vowels in string', function() {
 	it('should return number of vowels', function() {
 		spyOn(window, 'prompt').and.returnValue('аоеёуиюяэы/АОЕЁУИЮЯЭЫ');
 		spyOn(console, 'log');
-		censor();
+		countVowels();
 		expect(console.log).toHaveBeenCalledWith(20);
 	});
 
 	it('should return 0 because of only consonants in string', function() {
 		spyOn(window, 'prompt').and.returnValue('бвгджзйклмнпрстфхцчшщ/БВГДЖЗЙКЛМНПРСТФХЦЧШЩ');
 		spyOn(console, 'log');
-		censor();
+		countVowels();
 		expect(console.log).toHaveBeenCalledWith(0);
 	});
 
 	it('should return msg of empty string (after null)', function() {
 		spyOn(window, 'prompt').and.returnValue(null);
 		spyOn(console, 'log');
-		censor();
+		countVowels();
 		expect(console.log).toHaveBeenCalledWith('String is empty');
 	});
 
 	it('should return msg of empty string', function() {
 		spyOn(window, 'prompt').and.returnValue('');
 		spyOn(console, 'log');
-		censor();
+		countVowels();
 		expect(console.log).toHaveBeenCalledWith('String is empty');
+	});
+});
+
+describe('task01.js -> deleteWords -> delete words from string', function() {
+	it ('should call 3 console.log', function() {
+		spyOn(console, 'log');
+		deleteWords('d f g d', 'd');
+		expect(console.log.calls.count()).toEqual(3);
+	});
+
+	it('should return right string', function() {
+		spyOn(console, 'log');
+		deleteWords('d f g d', 'd');
+		expect(console.log).toHaveBeenCalledWith('finish: f g');
+
+		deleteWords('dad lf lf la dad g dad', 'dad lf');
+		expect(console.log).toHaveBeenCalledWith('finish: la g');
 	});
 });

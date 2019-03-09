@@ -14,7 +14,7 @@ function doDivision(a, b) {
 /**
  *  count all vowels in string
  */
-function censor() {
+function countVowels() {
 	let arrExcept = ['а', 'о', 'е', 'ё', 'у', 'и', 'ю', 'я', 'э', 'ы'];
 	let arrString = prompt('Введите строку:');
 	let resultArray = [];
@@ -33,23 +33,30 @@ function censor() {
 /**
  * delete words from string
  * @param str (string) - string to repairing
- * @param strToArr (string) - string to deleting words
+ * @param strToArr (string) - string to deleting words, input all words in one string through space
  */
 //можно было решить также через filter, но я взял другой метод
 function deleteWords(str, strToArr) {
 	let arr = strToArr.split(' ');
 	console.log(`start: ${str}`);
+	console.log(`deleting words: ${strToArr}`);
 
 	for (let i = 0; i < arr.length; i++) {
 		let index = str.indexOf(arr[i]);
+
 		if (index !== -1) {
 			str = str.substring(0, index) + str.substring(index + arr[i].length + 1);
+			i--;
+		}
+
+		if (str.lastIndexOf(' ') === (str.length - 1)) {
+			str = str.substring(0, str.length - 1);
 		}
 	}
 	console.log(`finish: ${str}`);
 }
 
-deleteWords('Удалить из строки набор слов (фильтр запрещенных слов)', 'Удалить из строки запрещенных');
+
 
 /*
 let result = 'Удалить из строки набор слов (фильтр запрещенных слов)';

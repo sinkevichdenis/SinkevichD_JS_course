@@ -3,5 +3,15 @@
 dvt-jb_licsrv.amd64.exe
 02/node_modules/
 03/node_modules/
-jasmine/
 04/node_modules/
+jasmine/lib/jasmine-3.3.0/jasmine-html.js
+jasmine/lib/jasmine-3.3.0/boot.js
+jasmine/SpecRunner.html
+jasmine/src/Song.js
+jasmine/lib/jasmine-3.3.0/jasmine.js
+jasmine/lib/jasmine-3.3.0/jasmine.css
+jasmine/spec/PlayerSpec.js
+jasmine/lib/jasmine-3.3.0/jasmine_favicon.png
+jasmine/src/Player.js
+jasmine/spec/SpecHelper.js
+jasmine/MIT.LICENSE

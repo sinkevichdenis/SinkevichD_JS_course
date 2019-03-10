@@ -6,6 +6,7 @@
  * @param b (number)
  * @returns {string}
  */
+/* exported doDivision */
 function doDivision(a, b) {
 	let result = a % b;
 	return (result) ? `Делится с остатком: ${result}` : `Делится: ${a / b}`;
@@ -14,6 +15,7 @@ function doDivision(a, b) {
 /**
  *  count all vowels in string
  */
+/* exported countVowels */
 function countVowels() {
 	let arrExcept = ['а', 'о', 'е', 'ё', 'у', 'и', 'ю', 'я', 'э', 'ы'];
 	let arrString = prompt('Введите строку:');
@@ -36,6 +38,7 @@ function countVowels() {
  * @param strToArr (string) - string to deleting words, input all words in one string through space
  */
 //можно было решить также через filter, но я взял другой метод
+/* exported deleteWords */
 function deleteWords(str, strToArr) {
 	let arr = strToArr.split(' ');
 	console.log(`start: ${str}`);

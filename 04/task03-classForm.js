@@ -1,7 +1,10 @@
 'use strict';
 
+/**
+ * create main class
+ * @constructor
+ */
 function Form() {
-	this.formAll = document.querySelector('.form');
 	this.buttonCheck = document.querySelector('.button_check');
 	this.buttonShow = document.querySelector('.button_show');
 	this.name = document.querySelector('.input_name');

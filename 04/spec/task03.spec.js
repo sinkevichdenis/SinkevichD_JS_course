@@ -31,7 +31,7 @@
             <button class="button_check">Check form (ex. 3)</button>
             <button class="button_show">Show form data (ex. 3)</button>
         </div>
-    </form>`)
+    </form>`);
 })();
 
 describe('task03-classForm.js -> Form.prototype.checkPassword -> check password rules', function() {
@@ -39,6 +39,7 @@ describe('task03-classForm.js -> Form.prototype.checkPassword -> check password 
 	let value;
 
 	beforeEach(function() {
+		/* global Form */
 		form = new Form();
 	});
 

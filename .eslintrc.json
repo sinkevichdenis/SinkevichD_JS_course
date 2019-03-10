@@ -31,12 +31,15 @@
         "showSex": "false",
         "getAge": "false",
         "isMan": "false",
-        "getAge": "false",
         "positiveSum": "false",
         "evenOrOdd": "false",
         "centuryFromYear": "false",
         "getNameData": "false",
-        "arrayDiff": "false"
+        "arrayDiff": "false",
+        "deleteWords": "false",
+        "countVowels": "false",
+        "doDivision": "false"
+
     },
     "parserOptions": {
         "ecmaVersion": 2018

@@ -1,6 +1,7 @@
 'use strict';
 
 // create working object
+/* global Form */
 let form = new Form();
 form.buttonCheck.addEventListener('click', stopDefAction);
 form.buttonCheck.addEventListener('click', isFormEnd);

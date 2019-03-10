@@ -72,7 +72,7 @@ describe('task02.js -> getNameData -> test getting name (string) from user', fun
 		});
 		result = testFunction('');
 
-		expect(window.prompt.calls.count()).toEqual(2);
+		expect(window.prompt.calls.count()).toEqual(3);
 		expect(result).toEqual(jasmine.any(String));
 	});
 });

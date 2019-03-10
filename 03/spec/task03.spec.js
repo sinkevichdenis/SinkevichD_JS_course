@@ -1,6 +1,6 @@
 'use strict';
 
-describe('task03.js -> getString -> test getting string from user', function() {
+describe('task03-classForm.js -> getString -> test getting string from user', function() {
 	let result;
 	let isFirstCall;
 	let testFunction = getString;
@@ -37,7 +37,7 @@ describe('task03.js -> getString -> test getting string from user', function() {
 
 });
 
-describe('task03.js -> isGoodString -> test good string', function() {
+describe('task03-classForm.js -> isGoodString -> test good string', function() {
 	let value;
 	let testFunction = isGoodString;
 
@@ -86,7 +86,7 @@ describe('task03.js -> isGoodString -> test good string', function() {
 	});
 });
 
-describe('task03.js -> deleteSpaces -> test deleting spaces', function() {
+describe('task03-classForm.js -> deleteSpaces -> test deleting spaces', function() {
 	let value;
 	let result;
 	let testFunction = deleteSpaces;
@@ -103,7 +103,7 @@ describe('task03.js -> deleteSpaces -> test deleting spaces', function() {
 	});
 });
 
-describe('task03.js -> showResult-> test showing result', function() {
+describe('task03-classForm.js -> showResult-> test showing result', function() {
 	let value;
 	let testFunction = showResult;
 
@@ -124,7 +124,7 @@ describe('task03.js -> showResult-> test showing result', function() {
 	});
 });
 
-describe('task03.js -> isPalindrome2 -> test one of palindroms function', function() {
+describe('task03-classForm.js -> isPalindrome2 -> test one of palindroms function', function() {
 	let value;
 	let testFunction = isPalindrome2;
 

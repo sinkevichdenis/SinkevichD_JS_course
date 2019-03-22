@@ -1,6 +1,6 @@
 'use strict';
 
-let time = 3;
+let time = 60;
 /*global Timer*/
 let timer = new Timer(time);
 

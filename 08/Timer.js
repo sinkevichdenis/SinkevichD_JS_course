@@ -1,14 +1,30 @@
 'use strict';
 
+/**
+ * usual timer
+ * @param period
+ * @returns {{getTime: function(*=), setTime: function(*), start: function(*=), stop: function()}}
+ * @constructor
+ */
 function Timer(period) {
 	let time = period || 60;
 	let idInt;
 	let idTo;
 
+	/**
+	 * show result msg of periodic function
+	 * @param msg
+	 * @returns {string}
+	 */
 	function showTime(msg = '') {
-		return `${msg} ${time}  `;
+		return `${msg} ${time}`;
 	}
 
+	/**
+	 *  start periodic function
+	 * @param func
+	 * @returns {Function}
+	 */
 	function startTimer(func) {
 		return function () {
 			func();

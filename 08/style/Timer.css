@@ -1,0 +1,14 @@
+body {
+    padding: 0 40px;
+}
+button  {
+    margin: 5px;
+}
+
+.timer_place__closed {
+    display: none;
+}
+
+.timer_place__open {
+    display: block;
+}

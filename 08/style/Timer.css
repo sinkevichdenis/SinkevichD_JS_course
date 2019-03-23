@@ -1,0 +1,19 @@
+body {
+    padding: 0 40px;
+}
+button  {
+    margin: 5px;
+}
+
+.timer_place__open,
+.measure_place__open,
+.random_btn__open {
+     display: block;
+}
+
+.timer_place__closed,
+.measure_place__closed,
+.random_btn__closed {
+    display: none;
+}
+

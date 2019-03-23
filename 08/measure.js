@@ -9,9 +9,9 @@ let placeResult = document.querySelector('.measure_place-result');
 
 let msgStart = 'Для начала работы тонометра нажмите СТАРТ.';
 
-let numSecInit = 3;
+let numSecInit = 5;
 let initTimer = new Timer(numSecInit);
-let numSecMain = 2;
+let numSecMain = 15;
 let mainTimer = new Timer(numSecMain);
 
 /**

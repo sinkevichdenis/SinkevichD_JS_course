@@ -35,7 +35,7 @@ function showResult() {
 /**
  * block of Event listeners
  */
-(function listeners() {
+(function TimerListeners() {
 	btnStart.addEventListener('click', function () {
 		timer.start(showResult)();
 	});

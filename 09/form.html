@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+    <style>
+        #registration {
+            width: 400px;
+            padding: 10px;
+            margin:20px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input {
+            margin: 10px 0;
+        }
+        .error {
+            border-color: red !important;
+        }
+    </style>
+</head>
+<body>
+<form id="registration"
+      name="registration-form"
+      data-default="false">
+    <h3>Authorisation:</h3>
+    <div>
+        <label for="login">Login: </label><br />
+        <input id="login" name="login" type="text" value="" />
+        <div class="error-list"></div>
+    </div>
+    <div>
+        <label for="password">Password: </label><br />
+        <input id="password" name="password" type="password" value="" />
+        <div class="error-list"></div>
+    </div>
+    <div>
+        <label for="password">Password repeat: </label><br />
+        <input id="password2" name="password2" type="password" value="" />
+        <div class="error-list"></div>
+    </div>
+    <input id="submit-btn" type="submit" value="Login">
+
+
+
+</form>
+<script src="validator.js"></script>
+<script src="form-control.js"></script>
+<script src="form-group.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

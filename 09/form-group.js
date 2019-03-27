@@ -1,47 +1,10 @@
 function FormGroup(id) {
 	const form = getForm();
 	this.formControls = [];
-	this.addClass = function(classes) {
-		try {
-			if (!Array.isArray(classes)) {
-				throw new Error('Param should be an array of strings');
-			}
 
-			let classList = form.classList;
-			classes.forEach(function(item){
-				if (classList.contains(String(item))) {
-					return false;
-				}
-
-				classList.add(String(item));
-			});
-		} catch (e) {
-			console.log(e.message);
-			return false;
-		}
-
-	};
-
-	this.removeClass = function(classes) {
-		try {
-			if (!Array.isArray(classes)) {
-				throw new Error('Param should be an array of strings');
-			}
-
-			let classList = form.classList;
-			classes.forEach(function(item){
-				if (classList.contains(String(item))) {
-					classList.remove(String(item));
-				}
-
-				return true;
-
-			});
-		} catch (e) {
-			console.log(e.message);
-			return false;
-		}
-
+	this.registerControls = function(control) {
+		this.formControls.push(control);
+		this.isValid = getStatus.bind(this)();
 	};
 
 	this.isValid = getStatus.bind(this)();
@@ -50,19 +13,20 @@ function FormGroup(id) {
 
 	function _init() {
 		const self = this;
+		let classChanger = new FormClassChanger(form);
 
 		form.addEventListener('submit', function(event){
 			event.preventDefault();
 
 			self.isValid = getStatus.bind(self)();
 			if (self.isValid) {
-				self.removeClass(['error']);
+				classChanger.removeClass(['error']);
 				console.log('Data was sent');
 				return true;
 			}
 
 			console.log('Form is not valid');
-			self.addClass(['error']);
+			classChanger.addClass(['error']);
 			self.formControls.forEach(function(control){
 				control.startCheck();
 			});
@@ -77,13 +41,10 @@ function FormGroup(id) {
 
 		return forms.filter(function(item){
 			return item.id === id;
+
+
 		})[0];
 	}
-
-	this.registerControls = function(control) {
-		this.formControls.push(control);
-		this.isValid = getStatus.bind(this)();
-	};
 
 	function getStatus() {
 		try {

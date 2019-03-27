@@ -8,61 +8,21 @@ function FormControl(type, id, validators) {
 
 function FormControlInput(type, id, validators) {
 	this.control = getControl();
+
 	this.validationErrors = [];
 
 	this.isValid = getValidation.bind(this)();
 
-	this.addClass = function(classes) {
-		try {
-			if (!Array.isArray(classes)) {
-				throw new Error('Param should be an array of strings');
-			}
-
-			let classList = this.control.classList;
-			classes.forEach(function(item){
-				if (classList.contains(String(item))) {
-					return false;
-				}
-
-				classList.add(String(item));
-			});
-		} catch (e) {
-			console.log(e.message);
-			return false;
-		}
-
-	};
-
-	this.removeClass = function(classes) {
-		try {
-			if (!Array.isArray(classes)) {
-				throw new Error('Param should be an array of strings');
-			}
-
-			let classList = this.control.classList;
-			console.log(classList);
-			classes.forEach(function(item){
-				if (classList.contains(String(item))) {
-					classList.remove(String(item));
-				}
-				return true;
-
-			});
-		} catch (e) {
-			console.log(e.message);
-			return false;
-		}
-
-	};
-
 	this.startCheck = function() {
+		let classChanger = new FormClassChanger(this.control);
+
 		this.isValid = getValidation.bind(this)();
 		console.log(this.isValid);
 
 		if (!this.isValid) {
-			this.addClass(['error']);
+			classChanger.addClass(['error']);
 		} else {
-			this.removeClass(['error']);
+			classChanger.removeClass(['error']);
 		}
 
 		const errorContainer = this.control.parentNode.querySelector('.error-list');
@@ -75,26 +35,37 @@ function FormControlInput(type, id, validators) {
 		errorContainer.innerHTML = text;
 	};
 
+	/**
+	 * get validation all form
+	 */
 	function getValidation() {
 		let isValid = true;
-		const self = this;
 
-		validators.forEach(function(item){
+		validators.forEach((item) => {
 			const validator = new (window[item])(3);
 
-			if (!(validator.test(self.control.value))) {
-				isValid = false;
-				if (self.validationErrors.indexOf(validator.toString()) === -1) {
-					self.validationErrors.push(validator.toString());
-				}
-			} else {
-				let errorIndex = self.validationErrors.indexOf(validator.toString());
-				if (errorIndex !== -1) {
-					self.validationErrors.splice(errorIndex, 1);
-				}
-			}
+			isValid = testValidator.call(this, validator);
 		});
 
+		return isValid;
+	}
+
+	/**
+	 * get validation every item
+	 */
+	function testValidator(validator){
+		let isValid = true;
+		if (!(validator.test(this.control.value))) {
+			isValid = false;
+			if (this.validationErrors.indexOf(validator.toString()) === -1) {
+				this.validationErrors.push(validator.toString());
+			}
+		} else {
+			let errorIndex = this.validationErrors.indexOf(validator.toString());
+			if (errorIndex !== -1) {
+				this.validationErrors.splice(errorIndex, 1);
+			}
+		}
 		return isValid;
 	}
 

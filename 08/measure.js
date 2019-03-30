@@ -6,6 +6,7 @@ let placeMsg = document.querySelector('.measure_msg');
 let userInput = document.querySelector('#count');
 let btnMeasureResult = document.querySelector('.measure_btn-result');
 let placeResult = document.querySelector('.measure_place-result');
+let placeDisplayTime2 = document.querySelector('#measure_time');
 
 let msgStart = 'Для начала работы тонометра нажмите СТАРТ.';
 
@@ -18,13 +19,7 @@ let mainTimer = new Timer(numSecMain);
  * all process of timer's working
  */
 function doMeasure() {
-	placeMsg.innerHTML = initTimer.getTime('До начала отсчета осталось:');
-	if (initTimer.isFinish()) {
-		placeMsg.innerHTML = 'Измерение...';
-		mainTimer.start(() => {
-			finishTimerCount();
-		}, 'done')();
-	}
+	mainTimer.start(finishTimerCount, { element: placeDisplayTime2, msg: 'Измерение:' }, 'done')();
 }
 
 /**
@@ -69,11 +64,15 @@ function changeVisButtons(){
  * block of Event listeners
  */
 (function MeasureListeners() {
-	btnMeasureStart.addEventListener('click', initTimer.start(doMeasure));
+	btnMeasureStart.addEventListener('click', function () {
+		placeMsg.innerHTML = '';
+		initTimer.start( doMeasure, { element: placeDisplayTime2, msg: 'До начала отсчета осталось:' }, 'done')();
+	});
 
 	btnMeasureStop.addEventListener('click', function () {
 		stopMeasure();
 		placeMsg.innerHTML = msgStart;
+		placeDisplayTime2.innerHTML = '';
 	});
 
 	document.querySelectorAll('.measure_btn').forEach((item) => {

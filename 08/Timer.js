@@ -84,8 +84,8 @@ function Timer(seconds = 60, period = 1) {
 	 * @param y
 	 */
 	function renewTime(x, y) {
-		x && (time = x);
-		y && (periodTime = y);
+		x ? (time = x) : (time = seconds);
+		y ? (periodTime = y) : (periodTime = period);
 	}
 
 	return {

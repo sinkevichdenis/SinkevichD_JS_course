@@ -7,9 +7,8 @@ let btnPause = document.querySelector('.timer_btn-pause');
 let placeTitleTime = document.querySelector('.timer_place-time');
 let placeDisplayTime = document.querySelector('#timer_time');
 
-let time = 60;
 /*global Timer*/
-let timer = new Timer(time);
+let timer = new Timer(5);
 
 
 /**
@@ -29,7 +28,7 @@ function showResult() {
 	placeTitleTime.innerHTML = 'СТОП! Еще раз?';
 	placeDisplayTime.innerHTML = '';
 	changeVisibleButtons();
-	timer.setTime(time);
+	timer.setTime();
 }
 
 /**
@@ -48,8 +47,9 @@ function showResult() {
 
 	btnStop.addEventListener('click', function() {
 		timer.stop();
-		timer.setTime(time);
+		timer.setTime();
 		placeTitleTime.innerHTML = 'Таймер остановлен';
+		placeDisplayTime.innerHTML = '';
 	});
 
 	document.querySelectorAll('.timer_btn').forEach((item) => {

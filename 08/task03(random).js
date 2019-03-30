@@ -2,7 +2,7 @@
 
 let randomBtn = document.querySelector('#random_btn');
 let randomTimePlace = document.querySelector('#random_time');
-let numSecRand = 5;
+let numSecRand = 20;
 let randomTimer = new Timer(numSecRand);
 let randomTimerFinish = new Timer(numSecRand);
 

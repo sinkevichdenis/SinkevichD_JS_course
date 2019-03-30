@@ -7,7 +7,7 @@ let btnPause = document.querySelector('.timer_btn-pause');
 let placeTitleTime = document.querySelector('.timer_place-time');
 let placeDisplayTime = document.querySelector('#timer_time');
 
-let time = 5;
+let time = 60;
 /*global Timer*/
 let timer = new Timer(time);
 

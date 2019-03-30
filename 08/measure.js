@@ -81,6 +81,7 @@ function changeVisButtons(){
 
 	btnMeasureResult.addEventListener('click', function () {
 		changeVisResult();
+		placeDisplayTime2.innerHTML = '';
 		alert(`Ваш пульс ${userInput.value * 4} ударов в минуту.`);
 	});
 })();

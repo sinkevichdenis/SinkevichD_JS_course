@@ -19,15 +19,11 @@ let mainTimer = new Timer(numSecMain);
  */
 function doMeasure() {
 	placeMsg.innerHTML = initTimer.getTime('До начала отсчета осталось:');
-
-	if (+initTimer.getTime() === 0) {
+	if (initTimer.isFinish()) {
+		placeMsg.innerHTML = 'Измерение...';
 		mainTimer.start(() => {
-			if (+mainTimer.getTime() !== 0){
-				placeMsg.innerHTML = `Измерение... (${mainTimer.getTime()})`;
-			} else {
-				finishTimerCount();
-			}
-		})();
+			finishTimerCount();
+		}, 'done')();
 	}
 }
 

@@ -1,13 +1,15 @@
 'use strict';
 
-let time = 60;
-/*global Timer*/
-let timer = new Timer(time);
 
 let btnStart = document.querySelector('.timer_btn-start');
 let btnStop = document.querySelector('.timer_btn-stop');
 let btnPause = document.querySelector('.timer_btn-pause');
 let placeTime = document.querySelector('.timer_place-time');
+
+let time = 60;
+/*global Timer*/
+let timer = new Timer(time);
+
 
 /**
  * change button's visibility
@@ -25,7 +27,7 @@ function changeVisibleButtons() {
 function showResult() {
 	placeTime.innerHTML = timer.getTime('Осталось:');
 
-	if (+timer.getTime() === 0) {
+	if (timer.isFinish()) {
 		placeTime.innerHTML = 'СТОП! Еще раз?';
 		changeVisibleButtons();
 		timer.setTime(time);

@@ -12,7 +12,7 @@ function startRandom() {
 	let num = Math.ceil(Math.random()*100);
 	randomTimePlace.innerHTML = randomTimer.getTime('До конца работы осталось');
 
-	if (+randomTimer.getTime() === 0) {
+	if (randomTimer.isFinish()) {
 		changeVisBtnRandom();
 		randomTimer.setTime(numSecRand);
 		randomTimePlace.innerHTML = 'СТОП';

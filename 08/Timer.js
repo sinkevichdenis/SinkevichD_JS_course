@@ -2,14 +2,16 @@
 
 /**
  * usual timer
- * @param period
+ * @param seconds - whole duration of timer's work in seconds
+ * @param period - period for iteration's repeat in seconds
  * @returns {{getTime: function(*=), setTime: function(*), start: function(*=), stop: function()}}
  * @constructor
  */
-function Timer(period) {
-	let time = period || 60;
+function Timer(seconds, period) {
+	let time = seconds || 60;
+	let periodTime = period || 1;
 	let idInt;
-	let idTo;
+	let status = true;
 
 	/**
 	 * show result msg of periodic function
@@ -21,37 +23,45 @@ function Timer(period) {
 	}
 
 	/**
-	 *  start periodic function
+	 *  start function (default - periodic function, with 'done' - function will start after timer's finish)
 	 * @param func
+	 * @param done
 	 * @returns {Function}
 	 */
-	function startTimer(func) {
+	function startFunc(func, done) {
 		return function () {
-			func();
-			idInt = setInterval(() => {
-				time--;
-				func();
-			}, 1000);
+			status = false;
+			!done && func();
 
-			idTo = setTimeout(() => {
-				clearInterval(idInt);
-			}, time * 1000);
+			idInt = setInterval(() => {
+				time -= periodTime;
+				if (time <= 0) {
+					clearInterval(idInt);
+					status = true;
+					done && func();
+				}
+				!done && func();
+			}, periodTime * 1000);
 		};
 	}
 
 	return {
-		getTime: (msg) => {
-			return showTime(msg);
+		getTime: (msg, elem) => {
+			return showTime(msg, elem);
 		},
-		setTime: (x) => {
-			time = x;
+		setTime: (x, y) => {
+			x && (time = x);
+			y && (periodTime = y);
 		},
-		start: (func) => {
-			return startTimer(func);
+		start: (func, done = '') => {
+			return startFunc(func, done);
 		},
 		stop: () => {
 			clearInterval(idInt);
-			clearTimeout(idTo);
+			status = true;
+		},
+		isFinish: () => {
+			return status;
 		}
 	};
 }

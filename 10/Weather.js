@@ -22,14 +22,16 @@ function createTitle(path, obj){
 }
 
 function loadData(url, obj) {
-	const xhr = new XMLHttpRequest();
-	const path = url + '?' + obj.param.join('&');
+	return function () {
+		const xhr = new XMLHttpRequest();
+		const path = url + '?' + obj.param.join('&');
 
-	xhr.open('GET', path, true);
-	xhr.send();
+		xhr.open('GET', path, true);
+		xhr.send();
 
-	xhr.onload = function() {
-		renderData(JSON.parse(xhr.responseText), SHOW_PLACE);
+		xhr.onload = function() {
+			renderData(JSON.parse(xhr.responseText), SHOW_PLACE);
+		};
 	};
 }
 
@@ -52,6 +54,10 @@ function renderData(object, div) {
 		</table>`;
 }
 
-loadData(URL, SEARCH_OBJ);
+let timer = new Timer(5000, 360);
+document.addEventListener('DOMContentLoaded', timer.start(loadData(URL, SEARCH_OBJ)));
 
-
+document.addEventListener('unload', function() {
+	timer.stop();
+	timer.setTime();
+});

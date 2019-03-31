@@ -1,7 +1,7 @@
-function FormClassChanger(obj) {
+function FormClassChanger(obj, classes) {
 	this.object = obj;
 
-	this.addClass = function(classes) {
+	this.addClass = function() {
 		try {
 			if (!Array.isArray(classes)) {
 				throw new Error('Param should be an array of strings');
@@ -22,7 +22,7 @@ function FormClassChanger(obj) {
 
 	};
 
-	this.removeClass = function(classes) {
+	this.removeClass = function() {
 		try {
 			if (!Array.isArray(classes)) {
 				throw new Error('Param should be an array of strings');

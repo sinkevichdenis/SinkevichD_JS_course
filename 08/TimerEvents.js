@@ -1,13 +1,15 @@
 'use strict';
 
-let time = 60;
-/*global Timer*/
-let timer = new Timer(time);
 
 let btnStart = document.querySelector('.timer_btn-start');
 let btnStop = document.querySelector('.timer_btn-stop');
 let btnPause = document.querySelector('.timer_btn-pause');
-let placeTime = document.querySelector('.timer_place-time');
+let placeTitleTime = document.querySelector('.timer_place-time');
+let placeDisplayTime = document.querySelector('#timer_time');
+
+/*global Timer*/
+let timer = new Timer(5);
+
 
 /**
  * change button's visibility
@@ -23,13 +25,10 @@ function changeVisibleButtons() {
  * show timer's finish
  */
 function showResult() {
-	placeTime.innerHTML = timer.getTime('Осталось:');
-
-	if (+timer.getTime() === 0) {
-		placeTime.innerHTML = 'СТОП! Еще раз?';
-		changeVisibleButtons();
-		timer.setTime(time);
-	}
+	placeTitleTime.innerHTML = 'СТОП! Еще раз?';
+	placeDisplayTime.innerHTML = '';
+	changeVisibleButtons();
+	timer.setTime();
 }
 
 /**
@@ -37,18 +36,20 @@ function showResult() {
  */
 (function TimerListeners() {
 	btnStart.addEventListener('click', function () {
-		timer.start(showResult)();
+		placeTitleTime.innerHTML = 'Таймер';
+		timer.start( showResult, { element: placeDisplayTime, msg: 'Осталось:' }, 'done')();
 	});
 
 	btnPause.addEventListener('click', function() {
 		timer.stop();
-		placeTime.innerHTML = 'Пауза';
+		placeTitleTime.innerHTML = 'Пауза';
 	});
 
 	btnStop.addEventListener('click', function() {
 		timer.stop();
-		timer.setTime(time);
-		placeTime.innerHTML = 'Таймер остановлен';
+		timer.setTime();
+		placeTitleTime.innerHTML = 'Таймер остановлен';
+		placeDisplayTime.innerHTML = '';
 	});
 
 	document.querySelectorAll('.timer_btn').forEach((item) => {

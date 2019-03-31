@@ -4,20 +4,23 @@ let randomBtn = document.querySelector('#random_btn');
 let randomTimePlace = document.querySelector('#random_time');
 let numSecRand = 20;
 let randomTimer = new Timer(numSecRand);
+let randomTimerFinish = new Timer(numSecRand);
 
 /**
  * periodic function for timer
  */
 function startRandom() {
 	let num = Math.ceil(Math.random()*100);
-	randomTimePlace.innerHTML = randomTimer.getTime('До конца работы осталось');
-
-	if (+randomTimer.getTime() === 0) {
-		changeVisBtnRandom();
-		randomTimer.setTime(numSecRand);
-		randomTimePlace.innerHTML = 'СТОП';
-	}
 	errorFunc(num);
+}
+
+/**
+ * stop periodic function and renew interface
+ */
+function stopRandom() {
+	changeVisBtnRandom();
+	randomTimer.setTime(numSecRand);
+	randomTimePlace.innerHTML = 'СТОП';
 }
 
 /**
@@ -49,6 +52,7 @@ function changeVisBtnRandom() {
 (function MeasureListeners() {
 	randomBtn.addEventListener('click', function() {
 		changeVisBtnRandom();
-		randomTimer.start(startRandom)();
+		randomTimer.start( startRandom, { element: randomTimePlace, msg: 'До конца работы осталось' })();
+		randomTimerFinish.start( stopRandom, { element: randomTimePlace, msg: '' }, 'done')();
 	});
 })();

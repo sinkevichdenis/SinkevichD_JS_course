@@ -1,12 +1,13 @@
-function FormControl(type, id, validators) {
+function FormControl(type, id, validators, helper) {
 	switch (type) {
-		case 'input':
-			return new FormControlInput(type, id, validators)
-			break;
+	case 'input':
+		return new FormControlInput(type, id, validators, helper);
+	default:
+		throw new Error('Invalid form type!');
 	}
 }
 
-function FormControlInput(type, id, validators) {
+function FormControlInput(type, id, validators, helper) {
 	this.control = getControl();
 
 	this.validationErrors = [];
@@ -14,15 +15,15 @@ function FormControlInput(type, id, validators) {
 	this.isValid = getValidation.bind(this)();
 
 	this.startCheck = function() {
-		let classChanger = new FormClassChanger(this.control);
+		let classChanger = new helper(this.control, ['error']);
 
 		this.isValid = getValidation.bind(this)();
 		console.log(this.isValid);
 
 		if (!this.isValid) {
-			classChanger.addClass(['error']);
+			classChanger.addClass();
 		} else {
-			classChanger.removeClass(['error']);
+			classChanger.removeClass();
 		}
 
 		const errorContainer = this.control.parentNode.querySelector('.error-list');

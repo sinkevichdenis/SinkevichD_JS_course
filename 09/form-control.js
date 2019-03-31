@@ -3,7 +3,7 @@ function FormControl(type, id, validators, helper) {
 	case 'input':
 		return new FormControlInput(type, id, validators, helper);
 	default:
-		throw new Error('Unvalid form\'s type!');
+		throw new Error('Invalid form type!');
 	}
 }
 

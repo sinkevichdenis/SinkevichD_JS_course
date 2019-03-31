@@ -4,6 +4,7 @@ const SHOW_PLACE = document.querySelector('.weather_place');
 const TITLE_PLACE = document.querySelector('.weather_title');
 const KEY_ID = '595e9af527f3090cb8632eb0e4960744';
 const URL = 'http://api.openweathermap.org/data/2.5/forecast';
+const xhr = new Xhr(URL);
 
 const SEARCH_OBJ = {
 	name: 'Гродно',
@@ -17,26 +18,22 @@ const SEARCH_OBJ = {
 	]
 };
 
+/**
+ * create title in informative window
+ * @param path
+ * @param obj
+ */
 function createTitle(path, obj){
-	path.innerHTML =  `Погода в ${SEARCH_OBJ.name} <br /> ${obj.dt_txt}`
+	path.innerHTML =  `Погода в ${SEARCH_OBJ.name} <br /> ${obj.dt_txt}`;
 }
 
-function loadData(url, obj) {
-	return function () {
-		const xhr = new XMLHttpRequest();
-		const path = url + '?' + obj.param.join('&');
-
-		xhr.open('GET', path, true);
-		xhr.send();
-
-		xhr.onload = function() {
-			renderData(JSON.parse(xhr.responseText), SHOW_PLACE);
-		};
-	};
-}
-
+/**
+ *  create all information in informative window
+ * @param object
+ * @param div
+ */
 function renderData(object, div) {
-	let obj =object.list[5];
+	let obj = object.list[7]; //choose length of forecast
 	createTitle(TITLE_PLACE, obj);
 
 	div.innerHTML  = `
@@ -54,10 +51,26 @@ function renderData(object, div) {
 		</table>`;
 }
 
-let timer = new Timer(5000, 360);
-document.addEventListener('DOMContentLoaded', timer.start(loadData(URL, SEARCH_OBJ)));
+let timer = new Timer(50000, 3600);
+document.addEventListener('DOMContentLoaded', renderData(xhr.getData(SEARCH_OBJ), SHOW_PLACE));
 
 document.addEventListener('unload', function() {
 	timer.stop();
 	timer.setTime();
 });
+
+/*
+function loadData(url, obj) {
+	return function () {
+		const xhr = new XMLHttpRequest();
+		const path = url + '?' + obj.param.join('&');
+
+		xhr.open('GET', path, true);
+		xhr.send();
+
+		xhr.onload = function() {
+			renderData(JSON.parse(xhr.responseText), SHOW_PLACE);
+		};
+	};
+}
+*/

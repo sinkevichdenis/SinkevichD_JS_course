@@ -1,4 +1,4 @@
-function FormGroup(id) {
+function FormGroup(id, helper) {
 	const form = getForm();
 	this.formControls = [];
 
@@ -13,20 +13,20 @@ function FormGroup(id) {
 
 	function _init() {
 		const self = this;
-		let classChanger = new FormClassChanger(form);
+		let classChanger = new helper(form, ['error']);
 
 		form.addEventListener('submit', function(event){
 			event.preventDefault();
 
 			self.isValid = getStatus.bind(self)();
 			if (self.isValid) {
-				classChanger.removeClass(['error']);
+				classChanger.removeClass();
 				console.log('Data was sent');
 				return true;
 			}
 
 			console.log('Form is not valid');
-			classChanger.addClass(['error']);
+			classChanger.addClass();
 			self.formControls.forEach(function(control){
 				control.startCheck();
 			});

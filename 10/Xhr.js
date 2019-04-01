@@ -17,16 +17,20 @@ class Xhr extends XMLHttpRequest {
 	/**
 	 * get data from server
 	 * @param paramObj
+	 * @param func - callback function
 	 * @returns {object}
 	 */
-	getData(paramObj) {
+	getData(paramObj, func) {
 		const path = this.url + '?' + paramObj.param.join('&');
 
-		super.open('GET', path, false);
+		super.open('GET', path, true);
 		super.send();
 
-		console.log(super.responseText);
-		return JSON.parse(super.responseText);
+
+		super.onload = () => {
+			console.log(super.responseText);
+			return func(JSON.parse(super.responseText));
+		};
 	}
 
 	/**

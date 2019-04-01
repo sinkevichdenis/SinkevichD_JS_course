@@ -32,7 +32,7 @@ function createTitle(path, obj){
  * @param object
  * @param div
  */
-function renderData(object, div=SHOW_PLACE) {
+function renderData(div, object) {
 	let obj = object.list[7]; //choose length of forecast
 	createTitle(TITLE_PLACE, obj);
 
@@ -53,7 +53,7 @@ function renderData(object, div=SHOW_PLACE) {
 
 let timer = new Timer(50000, 3600);
 document.addEventListener('DOMContentLoaded', timer.start(function () {
-	xhr.getData(SEARCH_OBJ, renderData);
+	xhr.getData(SEARCH_OBJ, renderData.bind(null, SHOW_PLACE));
 }));
 
 document.addEventListener('unload', function() {

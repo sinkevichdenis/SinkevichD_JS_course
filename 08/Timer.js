@@ -41,32 +41,29 @@ function Timer(seconds = 60, period = 1) {
 	 * @param func
 	 * @param elem - (object) element's description for displaying last time
 	 * @param done - if !!done == true, func() will be started after timer's ending
-	 * @returns {Function}
 	 */
 	function startFunc(func, elem, done) {
-		return function () {
-			if (idInt === null){
-				status = false;
-				!done && func();
+		if (idInt === null){
+			status = false;
+			!done && func();
+			showTimeMsg(elem);
+
+			idInt = setInterval(() => {
+				time -= periodTime;
 				showTimeMsg(elem);
 
-				idInt = setInterval(() => {
-					time -= periodTime;
-					showTimeMsg(elem);
+				if (time <= 0) {
+					stopInterval();
+					renewTime(seconds, period);
+					func();
+					return false;
+				}
+				!done && func();
 
-					if (time <= 0) {
-						stopInterval();
-						renewTime(seconds, period);
-						func();
-						return false;
-					}
-					!done && func();
-
-				}, periodTime * 1000);
-			} else {
-				throw new Error('Timer has already started!');
-			}
-		};
+			}, periodTime * 1000);
+		} else {
+			throw new Error('Timer has already started!');
+		}
 	}
 
 	/**

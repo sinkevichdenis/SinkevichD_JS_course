@@ -37,7 +37,7 @@ function showResult() {
 (function TimerListeners() {
 	btnStart.addEventListener('click', function () {
 		placeTitleTime.innerHTML = 'Таймер';
-		timer.start( showResult, { element: placeDisplayTime, msg: 'Осталось:' }, 'done')();
+		timer.start( showResult, { element: placeDisplayTime, msg: 'Осталось:' }, 'done');
 	});
 
 	btnPause.addEventListener('click', function() {

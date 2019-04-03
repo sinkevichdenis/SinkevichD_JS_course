@@ -10,16 +10,16 @@ let placeDisplayTime2 = document.querySelector('#measure_time');
 
 let msgStart = 'Для начала работы тонометра нажмите СТАРТ.';
 
-let numSecInit = 5;
+let numSecInit = 3;
 let initTimer = new Timer(numSecInit);
-let numSecMain = 15;
+let numSecMain = 2;
 let mainTimer = new Timer(numSecMain);
 
 /**
  * all process of timer's working
  */
 function doMeasure() {
-	mainTimer.start(finishTimerCount, { element: placeDisplayTime2, msg: 'Измерение:' }, 'done')();
+	mainTimer.start(finishTimerCount, { element: placeDisplayTime2, msg: 'Измерение:' }, 'done');
 }
 
 /**
@@ -30,6 +30,7 @@ function finishTimerCount() {
 	changeVisButtons();
 	changeVisResult();
 	placeMsg.innerHTML = 'Измерение закончено. Повторить?';
+	placeDisplayTime2.innerHTML = '';
 }
 
 /**
@@ -65,8 +66,11 @@ function changeVisButtons(){
  */
 (function MeasureListeners() {
 	btnMeasureStart.addEventListener('click', function () {
+		if(placeResult.classList.contains('measure_place__open')) {
+			changeVisResult();
+		}
 		placeMsg.innerHTML = '';
-		initTimer.start( doMeasure, { element: placeDisplayTime2, msg: 'До начала отсчета осталось:' }, 'done')();
+		initTimer.start( doMeasure, { element: placeDisplayTime2, msg: 'До начала отсчета осталось:' }, 'done');
 	});
 
 	btnMeasureStop.addEventListener('click', function () {

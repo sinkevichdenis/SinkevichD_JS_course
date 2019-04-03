@@ -52,7 +52,7 @@ function changeVisBtnRandom() {
 (function MeasureListeners() {
 	randomBtn.addEventListener('click', function() {
 		changeVisBtnRandom();
-		randomTimer.start( startRandom, { element: randomTimePlace, msg: 'До конца работы осталось' })();
-		randomTimerFinish.start( stopRandom, { element: randomTimePlace, msg: '' }, 'done')();
+		randomTimer.start( startRandom, { element: randomTimePlace, msg: 'До конца работы осталось' });
+		randomTimerFinish.start( stopRandom, { element: randomTimePlace, msg: '' }, 'done');
 	});
 })();

@@ -52,9 +52,11 @@ function renderData(div, object) {
 }
 
 let timer = new Timer(50000, 3600);
-document.addEventListener('DOMContentLoaded', timer.start(function () {
-	xhr.getData(SEARCH_OBJ, renderData.bind(null, SHOW_PLACE));
-}));
+document.addEventListener('DOMContentLoaded', function() {
+	timer.start(() => {
+		xhr.getData(SEARCH_OBJ, renderData.bind(null, SHOW_PLACE));
+	});
+});
 
 document.addEventListener('unload', function() {
 	timer.stop();

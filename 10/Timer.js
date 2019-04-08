@@ -24,7 +24,7 @@ function Timer(seconds = 60, period = 1) {
 
 	/**
 	 * display remain time with msg into element
-	 * @param elem
+	 * @param elem {object} - contain http element ann msg
 	 */
 	function showTimeMsg(elem) {
 		if (elem) {
@@ -39,14 +39,14 @@ function Timer(seconds = 60, period = 1) {
 	/**
 	 *  start periodic function
 	 * @param func
-	 * @param elem - (object) element's description for displaying last time
-	 * @param done - if !!done == true, func() will be started after timer's ending
+	 * @param isRepeat {boolean}- if !!isRepeat == false, func() will be started only after timer's ending
+	 * @param elem  {object}- element's description for displaying last time
 	 * @returns {Function}
 	 */
-	function startFunc(func, elem, done) {
+	function startFunc(func, isRepeat, elem) {
 		if (idInt === null){
 			status = false;
-			!done && func();
+			isRepeat && func();
 			showTimeMsg(elem);
 
 			idInt = setInterval(() => {
@@ -59,7 +59,7 @@ function Timer(seconds = 60, period = 1) {
 					func();
 					return false;
 				}
-				!done && func();
+				isRepeat && func();
 
 			}, periodTime * 1000);
 		} else {
@@ -93,8 +93,8 @@ function Timer(seconds = 60, period = 1) {
 		setTime: (x, y) => {
 			renewTime(x, y);
 		},
-		start: (func, elem = '', done = '') => {
-			return startFunc(func, elem, done);
+		start: (func, isRepeat = false, elem = '') => {
+			return startFunc(func, isRepeat, elem);
 		},
 		stop: () => {
 			stopInterval();

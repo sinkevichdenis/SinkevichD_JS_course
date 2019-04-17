@@ -11,7 +11,7 @@ export class FormClassChanger {
 			}
 
 			let classList = this.object.classList;
-			this.classes.forEach(function(item){
+			this.classes.forEach(item => {
 				if (classList.contains(String(item))) {
 					return false;
 				}
@@ -33,7 +33,7 @@ export class FormClassChanger {
 
 			let classList = this.object.classList;
 			console.log(classList);
-			this.classes.forEach(function(item){
+			this.classes.forEach(item => {
 				if (classList.contains(String(item))) {
 					classList.remove(String(item));
 				}

@@ -3,19 +3,19 @@ export class FormGroup {
 		this.helper = helper;
 		this.formControls = [];
 		this.isValid = this.getStatus.bind(this)();
-		this.form = this.getForm(id);
+		this.form = document.getElementById(id);
 
-		this.init.bind(this)();
+		this._init.bind(this)();
 	}
 
 	registerControls (control) {
 		this.formControls.push(control);
 	}
 
-	init() {
+	_init() {
 		let classChanger = new this.helper(this.form, ['error']);
 
-		this.form.addEventListener('submit', (event) => {
+		this.form.addEventListener('submit', event => {
 			event.preventDefault();
 
 			this.isValid = this.getStatus();
@@ -27,7 +27,7 @@ export class FormGroup {
 
 			console.log('Form is not valid');
 			classChanger.addClass();
-			this.formControls.forEach(function(control){
+			this.formControls.forEach(control => {
 				control.startCheck();
 			});
 
@@ -43,7 +43,7 @@ export class FormGroup {
 
 			let status = true;
 			console.log(this.formControls);
-			this.formControls.forEach(function(item){
+			this.formControls.forEach(item => {
 				if (!item.isValid) {
 					status = false;
 					return false;
@@ -56,14 +56,5 @@ export class FormGroup {
 			console.log(e.message);
 			return true;
 		}
-	}
-
-	getForm(id) {
-		let forms = document.getElementsByTagName('form');
-		forms = [].slice.call(forms, 0);
-
-		return forms.filter(function (item) {
-			return item.id === id;
-		})[0];
 	}
 }

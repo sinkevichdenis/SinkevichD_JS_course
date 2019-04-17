@@ -1,5 +1,5 @@
 import { FormClassChanger } from './formClassChanger.js';
-import { FormControl } from './form-control.js';
+import { FormControl } from './formControl.js';
 import { FormGroup } from './formGroup.js';
 
 const funcHelper = FormClassChanger;

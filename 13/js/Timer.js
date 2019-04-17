@@ -47,19 +47,20 @@ export function Timer(seconds = 60, period = 1) {
 			isRepeat && func();
 			showTimeMsg(elem);
 
-			idInt = setInterval(() => {
-				time -= periodTime;
-				showTimeMsg(elem);
+			let promise = new Promise((resolve, reject) => {
+				idInt = setInterval(() => {
+					time -= periodTime;
+					showTimeMsg(elem);
+					(time <= 0) ? resolve() : (isRepeat && func());
+				}, periodTime * 1000);
+			});
 
-				if (time <= 0) {
+			promise
+				.then(() => {
 					stopInterval();
 					renewTime(seconds, period);
 					func();
-					return false;
-				}
-				isRepeat && func();
-
-			}, periodTime * 1000);
+				});
 		} else {
 			throw new Error('Timer has already started!');
 		}

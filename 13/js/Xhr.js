@@ -3,12 +3,21 @@
  */
 export class Xhr {
 	constructor (url) {
-		this.super = new XMLHttpRequest();
-
 		if (url) {
 			this.url = url;
 		} else {
 			throw new Error('URL didn\'t found');
+		}
+	}
+
+	/**
+	 * check request status
+	 */
+	_status(response) {
+		if (response.status >= 200 && response.status < 300) {
+			return Promise.resolve(response);
+		} else {
+			return Promise.reject(new Error(response.statusText));
 		}
 	}
 
@@ -19,15 +28,17 @@ export class Xhr {
 	 * @returns {object}
 	 */
 	get(paramObj, func) {
-		const path = this.url + '?' + paramObj.param.join('&')
-		this.super.open('GET', path, true);
-		this.super.send();
-
-		this.super.onload = () => {
-			console.log(this.super.responseText);
-			return func(JSON.parse(this.super.responseText));
-		};
+		const path = this.url + '?' + paramObj.param.join('&');
+		fetch(path)
+			.then(this._status)
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);
+				return func(data);
+			})
+			.catch(err => console.log('Fetch Error', err));
 	}
+
 
 	/**
 	 * send data to server
@@ -36,43 +47,19 @@ export class Xhr {
 	 * @param isAllowCred {boolean} - allow to send user's cookie
 	 */
 	post(obj, contentType = 'application/json', isAllowCred = false) {
-		this.super.open('POST', this.url, true);
-		this.super.setRequestHeader('Content-Type', contentType);
-		this.super.withCredentials = isAllowCred;
-		this.super.send(JSON.stringify(obj));
-
-		this.super.onreadystatechange = () => {
-			if (this.super.readyState === 4 && this.super.status === 201) {
-				console.log('Data was sent');
-			}
+		let descObj = {
+			method: 'post',
+			headers: {
+				'Content-type': contentType
+			},
+			body: obj,
+			credentials: isAllowCred
 		};
-	}
 
-	/**
-	 * send form's data to server
-	 * @param form - form as DOM-element
-	 * @param addObj {object} - object with additional key-value
-	 */
-	postForm(form, addObj) {
-		let formData = new FormData(form);
-
-		if (addObj && typeof addObj === 'object') {
-			for (let key in addObj) {
-				if (addObj.hasOwnProperty(key)) {
-					formData.append(key, addObj[key]);
-				}
-			}
-		}
-
-		this.super.open('POST', this.url, true);
-		this.super.send(formData);
-
-
-		this.super.onreadystatechange = () => {
-			if (this.super.readyState === 4 && this.super.status === 201) {
-				console.log('Form\'s data was sent');
-			}
-		};
+		fetch(this.url, descObj)
+			.then(this._status)
+			.then(() => console.log('Data was sent'))
+			.catch(err => console.log('Request failed', err));
 	}
 
 	/**
@@ -83,19 +70,23 @@ export class Xhr {
 	 * @param func
 	 */
 	put(id, obj, contentType = 'application/json',  func) {
-		this.super.open('PUT', `${this.url}/${id}`, true);
-		this.super.setRequestHeader('Content-Type', contentType);
-		this.super.send(JSON.stringify(obj));
-
-		this.super.onload = () => {
-			if (this.super.readyState === 4 && this.super.status === 201) {
-				console.log('Data was changed');
-			}
-
-			if (func) {
-				return func(JSON.parse(this.super.responseText));
-			}
+		let descObj = {
+			method: 'put',
+			headers: {
+				'Content-type': contentType
+			},
+			body: obj
 		};
+
+		fetch(`${this.url}/${id}`, descObj)
+			.then(this._status)
+			.then(response => {
+				console.log('Data was changed');
+				if (func) {
+					return func(response.json());
+				}
+			})
+			.catch(err => console.log('Request failed', err));
 	}
 
 	/**
@@ -104,17 +95,18 @@ export class Xhr {
 	 * @param func
 	 */
 	delete(id, func) {
-		this.super.open('DELETE', `${this.url}/${id}`, true);
-		this.super.send();
-
-		this.super.onload = () => {
-			if (this.super.readyState === 4 && this.super.status === 201) {
-				console.log('Data was deleted');
-			}
-
-			if (func) {
-				return func(JSON.parse(this.super.responseText));
-			}
+		let descObj = {
+			method: 'delete'
 		};
+
+		fetch(`${this.url}/${id}`, descObj)
+			.then(this._status)
+			.then(response => {
+				console.log('Data was deleted');
+				if (func) {
+					return func(response.json());
+				}
+			})
+			.catch(err => console.log('Request failed', err));
 	}
 }

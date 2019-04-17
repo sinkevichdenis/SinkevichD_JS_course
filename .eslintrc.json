@@ -42,7 +42,9 @@
 
     },
     "parserOptions": {
-        "ecmaVersion": 2018
+        "sourceType": "module",
+        "allowImportExportEverywhere": true,
+        "ecmaVersion": 2017
     },
     "rules": {
         "indent": [

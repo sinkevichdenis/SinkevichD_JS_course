@@ -1,13 +1,11 @@
-import { Figures} from './Figures';
-
-export class Bricks extends Figures{
+export class Bricks{
 	/**
 	 * constructor
 	 * @param {object} context
 	 * @param {object} config
 	 */
 	constructor(context, config) {
-		super(context, config.fillColor, config.strokeColor);
+		this.ctx = context;
 		this.config = config;
 		this.bricks = [];
 
@@ -50,9 +48,9 @@ export class Bricks extends Figures{
 
 					this.ctx.beginPath();
 					this.ctx.rect(brickX, brickY, this.config.brickWidth, this.config.brickHeight);
-					this.ctx.fillStyle =  this.bricks[c][r].status >= 3	?  this.mainFillColor
+					this.ctx.fillStyle =  this.bricks[c][r].status >= 3	?  this.config.mainFillColor
 						: this.bricks[c][r].status === 2 ? 'green' : 'red';
-					this.ctx.strokeStyle = this.mainStrokeColor;
+					this.ctx.strokeStyle = this.config.mainStrokeColor;
 					this.ctx.fill();
 					this.ctx.stroke();
 					this.ctx.closePath();

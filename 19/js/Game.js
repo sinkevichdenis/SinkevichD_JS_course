@@ -44,7 +44,9 @@ class Game {
 		this.rightX = this.canvas.width - this.config.paddleWidth;
 		this.rightY = (this.canvas.height - this.config.paddleHeight) / 2;;
 
-		//other params
+		//other params (null - don't move, true - move up, false - move down)
+		this.leftMove = null;
+		this.rightMove = null;
 		this.score = 0;
 
 		this.ball = new Ball(this.ctx, this.config.mainFillColor, this.config.mainStrokeColor);
@@ -52,16 +54,63 @@ class Game {
 		this.paddleRight = new Paddle(this.ctx, this.config.addFillColor, this.config.mainStrokeColor);
 		/*this.bar = new Bar(this.ctx, this.canvas, this.config);*/
 
-		this.draw(this.ctx, this.canvas, this.config);
-
+		this.init(this.ctx, this.canvas, this.config);
+		this.events();
 	}
 
-	draw(ctx, canvas, config) {
+	init(ctx, canvas, config) {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 		this.paddleLeft.draw(this.leftX, this.leftY, config.paddleWidth, config.paddleHeight);
+		this.leftY = this.paddleMove(this.leftY, this.leftMove);
 		this.paddleRight.draw(this.rightX, this.rightY, config.paddleWidth, config.paddleHeight);
+		this.rightY = this.paddleMove(this.rightY, this.rightMove);
 		this.ball.draw(this.x, this.y, config.ballRadius);
+
+		requestAnimationFrame(() => {
+			this.init(this.ctx, this.canvas, this.config);
+		});
+	}
+
+	paddleMove(coordY, direction){
+		if (direction && coordY >= 0) {
+			coordY -= this.config.paddleMoveIndex;
+		}
+
+		if (direction === false && coordY <= this.canvas.height - this.config.paddleHeight) {
+			coordY += this.config.paddleMoveIndex;
+		}
+		return coordY;
+	}
+
+	events() {
+		document.addEventListener('keydown', (e) => {
+			switch(e.keyCode) {
+			case 16:
+				this.leftMove = true;
+				break;
+			case 17:
+				this.leftMove = false;
+				break;
+			case 38:
+				this.rightMove = true;
+				break;
+			case 40:
+				this.rightMove = false;
+				break;
+			}
+		});
+
+		document.addEventListener('keyup', (e) => {
+			if (e.keyCode === 16 || e.keyCode === 17) {
+				this.leftMove = null;
+			}
+			if (e.keyCode === 38 || e.keyCode === 40) {
+				this.rightMove = null;
+			}
+		});
+
+
 	}
 }
 

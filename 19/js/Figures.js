@@ -33,7 +33,7 @@ export class Ball extends Figures{
 	}
 }
 
-export class Paddle extends Figures{
+export class Paddle extends Figures {
 	constructor(context, fillColor, strokeColor) {
 		super(context, fillColor, strokeColor);
 	}
@@ -54,5 +54,4 @@ export class Paddle extends Figures{
 		this.ctx.stroke();
 		this.ctx.closePath();
 	}
-
 }

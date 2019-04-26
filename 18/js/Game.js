@@ -17,16 +17,17 @@ class Game {
 			paddleUpIndex: 50,
 			mainFillColor: '#0095DD',
 			mainStrokeColor: '#333',
-			brickRowCount: 1,
+			brickRowCount: 3,
 			brickColumnCount: 5,
 			brickWidth: 75,
 			brickHeight: 20,
 			brickPadding: 10,
 			brickOffsetTop: 30,
 			brickOffsetLeft: 30,
-			bricksStrength: 2,
+			bricksStrength: 3,
 			accelerate: 0.1,
 			lives: 3,
+			startBallY: 70,
 			dx: 2,
 			dy: -2,
 		};
@@ -36,11 +37,12 @@ class Game {
 		this.ctx = this.canvas.getContext('2d');
 
 		this.x = this.canvas.width / 2;
-		this.y = this.canvas.height - 70;
+		this.y = this.canvas.height - this.config.startBallY;
 		this.rightPressed = false;
 		this.leftPressed = false;
 		this.paddleX = (this.canvas.width - this.config.paddleWidth) / 2;
 		this.paddleY = this.canvas.height - this.config.paddleHeight;
+		this.paddleDownStatus = true;
 		this.score = 0;
 
 		this.ball = new Ball(this.ctx, this.config.mainFillColor, this.config.mainStrokeColor);
@@ -70,22 +72,9 @@ class Game {
 		this.bar.drawLives(this.config.lives);
 
 		//ball and up window border
-		if (this.y + config.dy <  config.ballRadius) {
+		if (this.y <  config.ballRadius) {
 			config.dy = -config.dy;
 		}
-
-		//rebound ball from paddle
-		if (this.y + config.dy + config.ballRadius >= this.paddleY
-
-			&& this.x > this.paddleX
-			&& this.x < this.paddleX + config.paddleWidth) {
-
-			console.log('this.paddleY', this.paddleY);
-			console.log('this.y ', this.y + config.dy + config.ballRadius );
-			config.dy = -config.dy;
-			this.y = this.paddleY - config.ballRadius;
-		}
-
 
 		//paddle and right window border
 		if (this.rightPressed && this.paddleX < canvas.width -  config.paddleWidth) {
@@ -98,20 +87,20 @@ class Game {
 		}
 
 		// ball and left/right window borders
-		if (this.x + config.dx <  config.ballRadius ||
-			this.x + config.dx > canvas.width -  config.ballRadius) {
+		if (this.x <  config.ballRadius ||
+			this.x > canvas.width -  config.ballRadius) {
 			config.dx = -config.dx;
 		}
 
-		//ball and down window border
-		if (this.y + config.dy + config.ballRadius > canvas.height) {
+		//ball and down window border (lose live or game over)
+		if (this.y + config.ballRadius > canvas.height) {
 			config.lives--;
 			if (!config.lives) {
 				alert('GAME OVER');
 				document.location.reload();
 			} else {
 				this.x = canvas.width / 2;
-				this.y = canvas.height - 30;
+				this.y = canvas.height - this.config.startBallY;
 				config.dx = 2;
 				config.dy = -2;
 				this.paddleX = (canvas.width -  config.paddleWidth) / 2;
@@ -121,9 +110,39 @@ class Game {
 		this.x += config.dx;
 		this.y += config.dy;
 
+		this.reboundFromPaddle(this.config, this.paddleDownStatus);
+
 		requestAnimationFrame(() => {
 			this.draw(this.ctx, this.canvas, this.config);
 		});
+	}
+
+	/**
+	 * realise rebound ball from pedall
+	 * @param config
+	 * @param paddleDownStatus - is paddle downstairs
+	 * @returns {boolean}
+	 */
+	reboundFromPaddle(config, paddleDownStatus) {
+		if (this.x + config.ballRadius > this.paddleX
+			&& this.x - config.ballRadius < this.paddleX + config.paddleWidth){
+
+			if (!paddleDownStatus
+				&& this.y + config.ballRadius > this.paddleY + config.paddleHeight){
+				this.y += 3*config.dy;
+				this.x += 3*config.dx;
+				return false;
+			}
+
+			if (!paddleDownStatus
+				&& this.y + config.ballRadius >= this.paddleY){
+				this.y = this.paddleY - config.ballRadius;
+			}
+
+			if (this.y + config.ballRadius >= this.paddleY) {
+				config.dy = -config.dy;
+			}
+		}
 	}
 
 	/**
@@ -136,20 +155,17 @@ class Game {
 				const b = this.bricks[c][r];
 
 				if ((b.status > 0) &&
-					this.x > b.x && this.x - config.ballRadius < b.x + config.brickWidth &&
-					this.y > b.y && this.y - config.ballRadius < b.y + config.brickHeight) {
+					this.x + config.ballRadius > b.x && this.x - config.ballRadius < b.x + config.brickWidth &&
+					this.y + config.ballRadius > b.y && this.y - config.ballRadius < b.y + config.brickHeight) {
 
 					config.dy = -config.dy;
 					b.status--;
-
-					if (b.status === 0) {
-						this.score++;
-					}
+					this.score++;
 
 					config.dx += config.dx * config.accelerate;
 					config.dy += config.dy * config.accelerate;
 
-					if (this.score === config.brickRowCount * config.brickColumnCount) {
+					if (this.score === config.brickRowCount * config.brickColumnCount * config.bricksStrength) {
 						alert('You Win!!!');
 						document.location.reload();
 					}
@@ -168,8 +184,10 @@ class Game {
 			} else if (e.keyCode === 37) {
 				this.leftPressed = true;
 			} else if (e.keyCode === 32) {
-				while (this.paddleY >= this.canvas.height  - this.config.paddleHeight){
-					this.paddleY -= this.config.paddleUpIndex ;
+				while (this.paddleY >= this.canvas.height  - this.config.paddleHeight - this.config.paddleUpIndex){
+					this.paddleY--;
+					this.paddleDownStatus = false;
+					this.reboundFromPaddle(this.config, this.paddleDownStatus);
 				}
 			}
 		});
@@ -181,7 +199,9 @@ class Game {
 				this.leftPressed = false;
 			} else if (e.keyCode === 32) {
 				while (this.paddleY < this.canvas.height - this.config.paddleHeight){
-					this.paddleY += this.config.paddleUpIndex;
+					this.paddleY ++;
+					this.paddleDownStatus = true;
+					this.reboundFromPaddle(this.config, this.paddleDownStatus);
 				}
 			}
 		});

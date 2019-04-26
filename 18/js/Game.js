@@ -14,16 +14,17 @@ class Game {
 			ballRadius: 10,
 			paddleHeight: 10,
 			paddleWidth: 75,
+			paddleUpIndex: 50,
 			mainFillColor: '#0095DD',
 			mainStrokeColor: '#333',
-			brickRowCount: 3,
+			brickRowCount: 1,
 			brickColumnCount: 5,
 			brickWidth: 75,
 			brickHeight: 20,
 			brickPadding: 10,
 			brickOffsetTop: 30,
 			brickOffsetLeft: 30,
-			bricksStrength: 3,
+			bricksStrength: 2,
 			accelerate: 0.1,
 			lives: 3,
 			dx: 2,
@@ -35,10 +36,11 @@ class Game {
 		this.ctx = this.canvas.getContext('2d');
 
 		this.x = this.canvas.width / 2;
-		this.y = this.canvas.height - 30;
+		this.y = this.canvas.height - 70;
 		this.rightPressed = false;
 		this.leftPressed = false;
 		this.paddleX = (this.canvas.width - this.config.paddleWidth) / 2;
+		this.paddleY = this.canvas.height - this.config.paddleHeight;
 		this.score = 0;
 
 		this.ball = new Ball(this.ctx, this.config.mainFillColor, this.config.mainStrokeColor);
@@ -61,52 +63,58 @@ class Game {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 		this.bricksObj.draw();
-		this.paddle.draw(this.paddleX, canvas.height - config.paddleHeight, config.paddleWidth, config.paddleHeight);
-		this.ball.draw(this.x, this.y, config.ballRadius,);
+		this.paddle.draw(this.paddleX, this.paddleY, config.paddleWidth, config.paddleHeight);
+		this.ball.draw(this.x, this.y, config.ballRadius);
 		this.collisionDetection(config);
 		this.bar.drawScore(this.score);
 		this.bar.drawLives(this.config.lives);
 
+		//ball and up window border
+		if (this.y + config.dy <  config.ballRadius) {
+			config.dy = -config.dy;
+		}
+
+		//rebound ball from paddle
+		if (this.y + config.dy + config.ballRadius >= this.paddleY
+
+			&& this.x > this.paddleX
+			&& this.x < this.paddleX + config.paddleWidth) {
+
+			console.log('this.paddleY', this.paddleY);
+			console.log('this.y ', this.y + config.dy + config.ballRadius );
+			config.dy = -config.dy;
+			this.y = this.paddleY - config.ballRadius;
+		}
+
+
+		//paddle and right window border
 		if (this.rightPressed && this.paddleX < canvas.width -  config.paddleWidth) {
-
-			if (this.x > this.paddleX &&
-				this.x < this.paddleX +  config.paddleWidth &&
-				this.y + config.dy > canvas.height -  config.ballRadius) {
-				config.dx = -config.dx;
-			}
 			this.paddleX += 7;
+		}
 
-		} else if (this.leftPressed && this.paddleX > 0) {
-			if (this.x > this.paddleX &&
-				this.x < this.paddleX +  config.paddleWidth &&
-				this.y + config.dy > canvas.height -  config.ballRadius) {
-				config.dx = -config.dx;
-			}
+		//paddle and left window border
+		if (this.leftPressed && this.paddleX > 0) {
 			this.paddleX -= 7;
 		}
 
+		// ball and left/right window borders
 		if (this.x + config.dx <  config.ballRadius ||
 			this.x + config.dx > canvas.width -  config.ballRadius) {
 			config.dx = -config.dx;
 		}
 
-		if (this.y + config.dy <  config.ballRadius) {
-			config.dy = -config.dy;
-		} else if (this.y + config.dy > canvas.height -  config.ballRadius) {
-			if (this.x > this.paddleX && this.x < this.paddleX +  config.paddleWidth) {
-				config.dy = -config.dy;
+		//ball and down window border
+		if (this.y + config.dy + config.ballRadius > canvas.height) {
+			config.lives--;
+			if (!config.lives) {
+				alert('GAME OVER');
+				document.location.reload();
 			} else {
-				config.lives--;
-				if (!config.lives) {
-					alert('GAME OVER');
-					document.location.reload();
-				} else {
-					this.x = canvas.width / 2;
-					this.y = canvas.height - 30;
-					config.dx = 2;
-					config.dy = -2;
-					this.paddleX = (canvas.width -  config.paddleWidth) / 2;
-				}
+				this.x = canvas.width / 2;
+				this.y = canvas.height - 30;
+				config.dx = 2;
+				config.dy = -2;
+				this.paddleX = (canvas.width -  config.paddleWidth) / 2;
 			}
 		}
 
@@ -128,8 +136,8 @@ class Game {
 				const b = this.bricks[c][r];
 
 				if ((b.status > 0) &&
-					this.x > b.x && this.x < b.x + config.brickWidth &&
-					this.y > b.y &&	this.y < b.y + config.brickHeight) {
+					this.x > b.x && this.x - config.ballRadius < b.x + config.brickWidth &&
+					this.y > b.y && this.y - config.ballRadius < b.y + config.brickHeight) {
 
 					config.dy = -config.dy;
 					b.status--;
@@ -159,6 +167,10 @@ class Game {
 				this.rightPressed = true;
 			} else if (e.keyCode === 37) {
 				this.leftPressed = true;
+			} else if (e.keyCode === 32) {
+				while (this.paddleY >= this.canvas.height  - this.config.paddleHeight){
+					this.paddleY -= this.config.paddleUpIndex ;
+				}
 			}
 		});
 
@@ -167,13 +179,25 @@ class Game {
 				this.rightPressed = false;
 			} else if (e.keyCode === 37) {
 				this.leftPressed = false;
+			} else if (e.keyCode === 32) {
+				while (this.paddleY < this.canvas.height - this.config.paddleHeight){
+					this.paddleY += this.config.paddleUpIndex;
+				}
 			}
 		});
 
 		document.addEventListener('mousemove', (e) => {
 			let mouseX = e.clientX - this.canvas.offsetLeft;
-			if (mouseX > 0 && mouseX < this.canvas.width) {
-				this.paddleX = mouseX - this.config.paddleWidth / 2;
+
+			switch(true){
+			case mouseX <= this.config.paddleWidth/2:
+				this.paddleX = 0;
+				break;
+			case mouseX >= this.canvas.width - this.config.paddleWidth/2:
+				this.paddleX = this.canvas.width - this.config.paddleWidth;
+				break;
+			default:
+				this.paddleX = mouseX - this.config.paddleWidth/2;
 			}
 		});
 	}

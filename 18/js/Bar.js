@@ -27,8 +27,9 @@ export class Bar{
 	 * @param {number} score
 	 */
 	drawScore(score) {
+		let maxScore = this.config.brickRowCount * this.config.brickColumnCount * this.config.bricksStrength;
 		this.ctx.font = '16px Arial';
 		this.ctx.fillStyle = this.config.mainFillColor;
-		this.ctx.fillText(`Score: ${score}`, 8, 20);
+		this.ctx.fillText(`Score: ${score} / ${maxScore}`, 8, 20);
 	}
 }

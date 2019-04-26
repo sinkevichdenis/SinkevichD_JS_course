@@ -66,10 +66,27 @@ class Game {
 		this.paddleRight.draw(this.rightX, this.rightY, config.paddleWidth, config.paddleHeight);
 		this.rightY = this.paddleMove(this.rightY, this.rightMove);
 		this.ball.draw(this.x, this.y, config.ballRadius);
+		this.ballMove();
 
 		requestAnimationFrame(() => {
 			this.init(this.ctx, this.canvas, this.config);
 		});
+	}
+
+	ballMove(){
+		if (this.y <= this.config.ballRadius
+			|| (this.y >= this.canvas.height - this.config.ballRadius)) {
+			this.config.dy = -this.config.dy;
+		}
+
+		if (this.x < this.config.ballRadius
+			|| (this.x > this.canvas.width -  this.config.ballRadius)) {
+			this.config.dx = 0;
+			this.config.dy = 0;
+		}
+
+		this.x += this.config.dx;
+		this.y += this.config.dy;
 	}
 
 	paddleMove(coordY, direction){
@@ -77,7 +94,7 @@ class Game {
 			coordY -= this.config.paddleMoveIndex;
 		}
 
-		if (direction === false && coordY <= this.canvas.height - this.config.paddleHeight) {
+		if (direction === false && (coordY <= this.canvas.height - this.config.paddleHeight)) {
 			coordY += this.config.paddleMoveIndex;
 		}
 		return coordY;

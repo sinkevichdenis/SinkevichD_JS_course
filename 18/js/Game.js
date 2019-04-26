@@ -129,8 +129,6 @@ class Game {
 
 			if (!paddleDownStatus
 				&& this.y + config.ballRadius > this.paddleY + config.paddleHeight){
-				this.y += 3*config.dy;
-				this.x += 3*config.dx;
 				return false;
 			}
 

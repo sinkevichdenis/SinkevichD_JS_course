@@ -12,24 +12,15 @@ export class Bar{
 	}
 
 	/**
-	 * draw lives on display
-	 * @param {number} lives
+	 * draw score on display
+	 * @param {number} scoreL
+	 * @param {number} scoreR
 	 */
-	drawLives(lives) {
-		this.ctx.font = '18px';
-		this.ctx.strokeStyle = this.config.mainStrokeColor;
-		this.ctx.stroke();
-		this.ctx.fillText(`Lives: ${lives}`, this.canvas.width - 65, 20);
+	drawScore(scoreL, scoreR) {
+		this.ctx.font = '20px Arial';
+		this.ctx.fillStyle = this.config.mainStrokeColor;
+		this.ctx.fillText(`${scoreL} : ${scoreR}`, this.canvas.width / 2 - 20, 20);
 	}
 
-	/**
-	 * draw score on display
-	 * @param {number} score
-	 */
-	drawScore(score) {
-		let maxScore = this.config.brickRowCount * this.config.brickColumnCount * this.config.bricksStrength;
-		this.ctx.font = '16px Arial';
-		this.ctx.fillStyle = this.config.mainFillColor;
-		this.ctx.fillText(`Score: ${score} / ${maxScore}`, 8, 20);
-	}
+
 }

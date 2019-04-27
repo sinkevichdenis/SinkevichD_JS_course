@@ -9,6 +9,14 @@ export class Figures {
 		this.fillColor = fillColor;
 		this.strokeColor = strokeColor;
 	}
+
+	/**
+	 * change color
+	 * @param {string} color - draw new color
+	 */
+	setColor(color) {
+		this.fillColor = color;
+	}
 }
 
 export class Ball extends Figures{
@@ -21,11 +29,13 @@ export class Ball extends Figures{
 	 * @param {number} x - start X-coordinate
 	 * @param {number} y - start Y-coordinate
 	 * @param {number} radius - ball's radius
+	 * @param {string} color - ball's color
 	 */
-	draw(x, y, radius) {
+	draw(x, y, radius, color) {
+		color = color || this.fillColor;
 		this.ctx.beginPath();
 		this.ctx.arc(x, y, radius, 0, Math.PI * 2);
-		this.ctx.fillStyle = this.fillColor;
+		this.ctx.fillStyle = color;
 		this.ctx.strokeStyle = this.strokeColor;
 		this.ctx.fill();
 		this.ctx.stroke();
@@ -44,11 +54,13 @@ export class Paddle extends Figures {
 	 * @param {number} y - start Y-coordinate
 	 * @param {number} width - paddle's width
 	 * @param {number} height - paddle's height
+	 * @param {string} color - paddle's color
 	 */
-	draw(x, y, width, height) {
+	draw(x, y, width, height, color) {
+		color = color || this.fillColor;
 		this.ctx.beginPath();
 		this.ctx.rect(x, y, width, height);
-		this.ctx.fillStyle = this.fillColor;
+		this.ctx.fillStyle = color;
 		this.ctx.strokeStyle = this.strokeColor;
 		this.ctx.fill();
 		this.ctx.stroke();

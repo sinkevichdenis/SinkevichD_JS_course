@@ -1,7 +1,6 @@
 export class Router {
 	constructor() {
-		this.routes = {
-		};
+		this.routes = {};
 		this.mainContentPages = document.querySelectorAll('.main-content .page');
 
 		window.addEventListener('hashchange', () => {

@@ -21,6 +21,7 @@ class App {
 			.then(data => {
 				this.articles = data;
 				this.initRoutes();
+				this.initSearch();
 				this.processingLinks(document.querySelector('.navigation'), '[data-href]', '');
 				window.dispatchEvent(new HashChangeEvent('hashchange'));
 			});
@@ -28,26 +29,64 @@ class App {
 	}
 
 	initRoutes() {
-		this.router.addRoute('', this.renderAllArticlesPage.bind(this));
+		this.router.addRoute('', this.renderAllArticlesPage.bind(this, item => item));
 		this.router.addRoute('#article', this.renderSinglePage.bind(this));
+		this.router.addRoute('#search', this.renderSearchPage.bind(this));
 		this.router.addRoute('404', this.renderOtherPage.bind(this, '.error'));
 		this.router.addRoute('#about', this.renderOtherPage.bind(this, '.about'));
 	}
 
 	/**
-	 * create list of articles for render
-	 * @returns {*[]}
+	 * init search process
 	 */
-	createArticlesList() {
-		let data = [...this.articles];
-		let exceptHref = [...arguments];
-		return data.filter(item => {
-			return !exceptHref.includes(item.href);
+	initSearch() {
+		const input = document.getElementById('search');
+		let timerId;
+
+		input.addEventListener('input', (event) => {
+			timerId && clearInterval(timerId);
+			timerId = setTimeout(() => {
+				window.location.hash = `#search/${event.target.value.trim()}`;
+			}, 200);
 		});
+
+		window.addEventListener('hashchange', () => {
+			if (!window.location.hash.includes('#search')) {
+				input.value = '';
+			} else {
+				input.value = decodeURI(window.location.hash.split('#search/')[1]);
+			}
+
+			if (input.value === '' && window.location.hash === '#search/') {
+				window.location.hash = '';
+			}
+		});
+
+/*		input.addEventListener('blur', () => {
+			if (input.value === '' && window.location.hash === '#search/') {
+				window.location.href = window.location.origin;
+			}
+		});*/
 	}
 
-	renderAllArticlesPage(exceptions) {
-		this.generateArticlesHTML(this.createArticlesList(exceptions));
+	/**
+	 * filter articles to render
+	 * @param fn
+	 * @returns {*[]}
+	 */
+	filterArticleList(fn) {
+		let data = [...this.articles];
+		data = data.filter(fn);
+
+		if (data.length === 0) {
+			this.renderOtherPage('.error');
+		}
+
+		return data;
+	}
+
+	renderAllArticlesPage(fn) {
+		this.generateArticlesHTML(this.filterArticleList(fn));
 		document.querySelector('.all-articles').classList.add('visible');
 	}
 
@@ -67,10 +106,17 @@ class App {
 			page.querySelector('img').setAttribute('src', currentArticle[0].image.large);
 			page.querySelector('p').innerText = currentArticle[0].content;
 			page.classList.add('visible');
-			this.renderAllArticlesPage(index);
+			this.renderAllArticlesPage(elem => !elem.href.includes(index));
 		} else {
-			this.renderErrorPage();
+			this.renderOtherPage('.error');
 		}
+	}
+
+	renderSearchPage() {
+		let tmp = window.location.hash.split('#search/')[1];
+		tmp = decodeURI(tmp).toLowerCase().trim();
+
+		this.renderAllArticlesPage(item => item.title.toLowerCase().includes(tmp));
 	}
 
 	renderOtherPage(selector) {
@@ -103,16 +149,13 @@ class App {
 	 * @param prefix
 	 */
 	processingLinks(elem, selector, prefix) {
-		console.log(elem);
 		elem.querySelectorAll(selector).forEach((item) => {
 			item.addEventListener('click', (event) => {
-				console.log(item);
 				event.preventDefault();
 				window.location.hash = `${prefix}${item.dataset.href}`;
 			});
 		});
 	}
-
 }
 
 new App();

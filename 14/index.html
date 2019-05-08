@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title 14 SPA</title>
+
+    <link href="assets/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="main-content">
+        <div class="navigation">
+            <label>
+                <input id="search" type="text" placeholder="Search...">
+            </label>
+            <a href="#" data-href="#"><h2>Home</h2></a>
+            <a href="#a" data-href="about"><h2>About</h2></a>
+        </div>
+
+        <div class="single-article page">
+            <h1></h1>
+            <img src="" alt="">
+            <p></p>
+        </div>
+
+        <div class="all-articles page">
+            <ul class="articles-list">
+                <script id="articles-template" type="x-handlebars-template">​
+                    <li data-index="{{id}}" data-href = "{{href}}">
+                        <a href="#" class="article-photo-small">
+                            <img src="{{image.small}}" height="130" alt="{{title}}"/>
+                        </a>
+                        <h2><a href="#"> {{title}} </a></h2>
+                    </li>
+                </script>
+            </ul>
+        </div>
+
+        <div class="about page" data-href="about_page" >
+            <h1>Вот такое вот домашнее задание.</h1>
+            <img src="assets/images/about.jpg" alt="about">
+            <p></p>
+        </div>
+
+        <div class="error page">
+            <img src="assets/images/error.png" alt="error">
+        </div>
+
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js"></script>
+    <script src="dist/bundle.js"></script>
+</body>
+</html>

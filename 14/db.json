@@ -1,0 +1,60 @@
+{
+  "articles": [
+    {
+      "id": "1",
+      "href": "4091790-maduro-otvetyl-pompeo-na-zaiavlenye-o-pobehe",
+      "title": "США требуют, чтобы Мадуро покинул Венесуэлу",
+      "content": "США требуют, чтобы Мадуро покинул Венесуэлу Помпео заявил, что Мадуро был готов покинуть Венесуэлу 30 апреля.Госсекретарь США Майкл Помпео посоветовал венесуэльскому лидеру 'заводить самолет'.   США настаивают на том, чтобы президент Венесуэлы Николас Мадуро покинул территорию республики. Об этом заявил в интервью телекомпании CNN госсекретарь Соединенных Штатов Майкл Помпео.Ему был задан вопрос, какое послание он бы направил Мадуро сейчас. 'Заводите самолет', - ответил Помпео. Он несколько раз повторил, что президенту Венесуэлы 'пора покинуть' эту страну. 'Для него настала пора покинуть Венесуэлу. Тем, кто готов поддержать демократию и свободу, следует хорошо подготовиться к тому, чтобы стать составной частью переходного процесса [передачи власти] и начать взаимодействовать со всеми странами в регионе', - резюмировал Помпео.",
+      "image": {
+        "small": "assets/images/article_1_small.jpg",
+        "large": "assets/images/article_1_large.jpg"
+      }
+    }, {
+      "id": "2",
+      "href": "4091783-ssha-trebuuit-chtoby-maduro-pokynul-venesuelu",
+      "title": "Мадуро ответил Помпео на заявление о побеге",
+      "content": "Президент Венесуэлы Николас Мадуро ответил госсекретарю США Майка Помпео, обвинившего его в попытке бежать из страны. Выступление Мадуро транслировалось по государственному телевидению в среду, 1 мая. В Соединенных Штатах еще не было такого сумасшедшего правительства, как это… Болтон, Пенс, Помпео – сколько в них ненависти… До какого уровня может дойти бесчувственность, безумие, ложь, манипуляции? Майк Помпео вечером сказал, что у меня, у Мадуро, был самолет, готовый улететь, и что русские запретили мне покидать страну. Сеньор Помпео, пожалуйста, как несерьезно!, - сказал Мадуро.",
+      "image": {
+        "small": "assets/images/article_2_small.jpg",
+        "large": "assets/images/article_2_large.jpg"
+      }
+    }, {
+      "id": "3",
+      "href": "4091776-tramp-otreahyroval-na-sytuatsyui-v-venesuele",
+      "title": "Трамп отреагировал на ситуацию в Венесуэле",
+      "content": "Как сообщалось, Соединенные Штаты считают происходящие в Венесуэле события потенциально переломным моментом в плане перехода власти в стране в руки оппозиции. Об этом заявил помощник президента США по национальной безопасности Джон Болтон. 'Это, очевидно, очень серьезная ситуация, президент [США Дональд Трамп] в течение дня следит за ней буквально каждую минуту, и это делают также его советники. Мы сейчас рассматриваем это как потенциально переломный момент в усилиях народа Венесуэлы, направленных на то, чтобы восстановить свободу, и мы полностью это поддерживаем', - сказал он.",
+      "image": {
+        "small": "assets/images/article_3_small.jpg",
+        "large": "assets/images/article_3_large.jpg"
+      }
+    }, {
+      "id": "4",
+      "href": "some-strange-article",
+      "title": "Хуткасны или скоростной? На каком языке должны быть дорожные надписи",
+      "content": "Lorem ipsum magna vivamus sapien, quisque mattis rutrum lectus massa mauris. Sit ornare sit nec duis sem, eros nulla massa, pharetra amet. Molestie, sem arcu nam tellus bibendum curabitur ligula metus duis sit cursus et proin et, vivamus risus pellentesque duis. \n Auctor curabitur commodo urna massa commodo morbi donec fusce pellentesque sodales mattis auctor, nec magna urna eu malesuada enim eros justo ornare vivamus. In malesuada porta a cursus pellentesque tellus elementum quam sodales non lectus. Nulla eu non magna non justo curabitur non, ornare pharetra — et, magna, non orci mattis quisque porttitor. Eu arcu elementum donec pharetra enim sed et massa pharetra amet pellentesque nam quisque. Commodo bibendum massa malesuada: nulla vivamus sem lectus ligula bibendum fusce amet tellus, justo. \n Congue integer arcu pharetra vivamus morbi vivamus sodales at magna — tellus maecenas porttitor lectus morbi eget ut nibh pellentesque, a justo metus tellus. Elementum maecenas sem massa gravida maecenas leo in lorem in, lorem morbi integer justo fusce tellus sem leo tempus, molestie leo malesuada pellentesque. Auctor porta sem commodo malesuada a: risus duis commodo in quisque ut sed, amet malesuada, mauris leo, quisque curabitur sapien pellentesque fusce at.",
+      "image": {
+        "small": "assets/images/article_4_small.jpg",
+        "large": "assets/images/article_4_large.jpg"
+      }
+    }, {
+      "id": "5",
+      "href": "4091663-ymperator-yaponyy-otreksia-ot-prestola",
+      "title": "Император Японии отрекся от престола",
+      "content": "Ipsum ultricies, lectus quisque — vivamus sem, a lectus adipiscing fusce eros, donec curabitur maecenas ornare gravida sapien orci nibh. Cursus, vivamus pellentesque proin diam ornare elementum: sodales pharetra sem magna sagittis congue vivamus non arcu sapien gravida leo sed, mauris bibendum tempus porta urna. Leo ipsum tempus amet arcu ornare duis — justo sed sit, sed et nec commodo sapien orci congue maecenas. \n Vulputate leo magna, maecenas sit commodo lectus sodales leo sit ut, auctor non sodales, a odio congue at pharetra urna porttitor. Leo odio gravida nam curabitur: congue cursus pharetra: vulputate congue non ipsum sed gravida justo rutrum, gravida eget curabitur ornare. Curabitur ultricies molestie ipsum quam: duis massa mauris maecenas ligula molestie: proin sit, eget mauris nam sagittis justo, nibh ipsum vivamus, odio quam mattis. Elementum cursus auctor malesuada magna sapien urna eget integer metus curabitur sodales bibendum vulputate ligula enim, at sagittis ultricies vitae, leo duis, adipiscing molestie.",
+      "image": {
+        "small": "assets/images/article_5_small.jpg",
+        "large": "assets/images/article_5_large.jpg"
+      }
+    }, {
+      "id": "6",
+      "href": "4091631-ssha-napraviat-esche-320-voennykh-na-hranytsu-s-meksykoi",
+      "title": "США направят еще 320 военных на границу с Мексикой",
+      "content": "Сейчас на границе с Мексикой находятся 3 тысячи военнослужащих и 2 тысячи членов Национальной гвардии США. Исполняющий обязанности министра обороны США Патрик Шанахан одобрил запрос министерства внутренней безопасности о дополнительной поддержке на южной границе США. Об этом сказал пресс-секретарь военного ведомства Джейми Дэвис, сообщает Интерфакс-Украина во вторник, 30 апреля.",
+      "image": {
+        "small": "assets/images/article_6_small.jpg",
+        "large": "assets/images/article_6_large.jpg"
+      }
+    }
+
+  ]
+}

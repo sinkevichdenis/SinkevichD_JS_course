@@ -1,0 +1,68 @@
+html {
+    width: 100%;
+}
+
+body {
+    width: 100%;
+    max-width: 1000px;
+
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+a {
+    text-decoration-line: none;
+    color: black;
+}
+
+h2 {
+    padding: 5px;
+}
+
+img {
+    width: 100px;
+    height: 65px;
+}
+
+label {
+    display: block;
+    margin: 5px;
+}
+
+.page {
+    width: 100%;
+    min-width: 700px;
+    display: none;
+}
+
+.visible{
+    display: block;
+}
+
+.articles-list {
+    width: 700px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.articles-list li {
+    display: flex;
+    align-items: center;
+
+    height: 70px;
+
+    list-style-type: none;
+}
+
+.single-article img {
+    width: 700px;
+    height: 100%;
+}
+
+.error img {
+    width: 100%;
+    height: 100%;
+}
+
+
+

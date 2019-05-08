@@ -10,6 +10,10 @@ body {
     padding: 0 10px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+}
+
 a {
     text-decoration-line: none;
     color: black;
@@ -19,9 +23,13 @@ h2 {
     padding: 5px;
 }
 
-img {
+.all-articles li img {
     width: 100px;
     height: 65px;
+}
+
+.all-articles li h2 {
+    text-align: left;
 }
 
 label {
@@ -35,11 +43,24 @@ label {
     display: none;
 }
 
+.page img{
+    width: 100%;
+    height: 100%;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: #aaaaaa;
+}
+
 .visible{
     display: block;
 }
 
-.articles-list {
+.articles-list, .navigation {
     width: 700px;
     margin: 0 auto;
     padding: 0;
@@ -52,16 +73,6 @@ label {
     height: 70px;
 
     list-style-type: none;
-}
-
-.single-article img {
-    width: 700px;
-    height: 100%;
-}
-
-.error img {
-    width: 100%;
-    height: 100%;
 }
 
 

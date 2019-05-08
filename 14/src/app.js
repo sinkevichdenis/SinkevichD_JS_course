@@ -8,6 +8,9 @@ class App {
 		this._templateHtml = null;
 	}
 
+	/**
+	 * get data from json-server and init page
+	 */
 	init(){
 		fetch('http://localhost:3006/articles', {
 			headers: {
@@ -18,6 +21,7 @@ class App {
 			.then(data => {
 				this.articles = data;
 				this.initRoutes();
+				this.processingLinks(document.querySelector('.navigation'), '[data-href]', '');
 				window.dispatchEvent(new HashChangeEvent('hashchange'));
 			});
 
@@ -25,38 +29,60 @@ class App {
 
 	initRoutes() {
 		this.router.addRoute('', this.renderAllArticlesPage.bind(this));
-		this.router.addRoute('404', this.renderErrorPage.bind(this));
 		this.router.addRoute('#article', this.renderSinglePage.bind(this));
+		this.router.addRoute('404', this.renderOtherPage.bind(this, '.error'));
+		this.router.addRoute('#about', this.renderOtherPage.bind(this, '.about'));
 	}
 
-	renderAllArticlesPage(exception) {
-		this.generateArticlesHTML(this.articles, exception);
+	/**
+	 * create list of articles for render
+	 * @returns {*[]}
+	 */
+	createArticlesList() {
+		let data = [...this.articles];
+		let exceptHref = [...arguments];
+		return data.filter(item => {
+			return !exceptHref.includes(item.href);
+		});
+	}
+
+	renderAllArticlesPage(exceptions) {
+		this.generateArticlesHTML(this.createArticlesList(exceptions));
 		document.querySelector('.all-articles').classList.add('visible');
 	}
 
 	renderSinglePage() {
 		const page = document.querySelector('.single-article');
 		const index = location.hash.split('#article/')[1].trim();
+		let currentArticle = null;
 
 		if (this.articles.length) {
-			this.articles.forEach((item) => {
-				if (item.href === index) {
-					page.querySelector('h1').innerText = item.title;
-					page.querySelector('img').setAttribute('src', item.image.large);
-					page.querySelector('p').innerText = item.content;
-				}
+			currentArticle = this.articles.filter((item) => {
+				return item.href === index;
 			});
 		}
-		page.classList.add('visible');
-		this.renderAllArticlesPage(index);
+
+		if (currentArticle.length !== 0){
+			page.querySelector('h1').innerText = currentArticle[0].title;
+			page.querySelector('img').setAttribute('src', currentArticle[0].image.large);
+			page.querySelector('p').innerText = currentArticle[0].content;
+			page.classList.add('visible');
+			this.renderAllArticlesPage(index);
+		} else {
+			this.renderErrorPage();
+		}
 	}
 
-	renderErrorPage() {
-		const page = document.querySelector('.error');
+	renderOtherPage(selector) {
+		const page = document.querySelector(selector);
 		page.classList.add('visible');
 	}
 
-	generateArticlesHTML(data, except) {
+	/**
+	 * generate articles HTML from template
+	 * @param {array} data
+	 */
+	generateArticlesHTML(data) {
 		if (document.getElementById('articles-template')) {
 			this._templateHtml = document.getElementById('articles-template').innerHTML;
 		}
@@ -65,19 +91,22 @@ class App {
 		const template = Handlebars.compile(this._templateHtml );
 		let html = '';
 
-		data.forEach(item => {
-			if(item.href !== except){
-				html += template(item);
-			}
-		});
-
+		data.forEach(item => html += template(item));
 		list.innerHTML = html;
 		this.processingLinks(list, 'li', 'article/');
 	}
 
+	/**
+	 * processing links and renew hash
+	 * @param elem
+	 * @param selector
+	 * @param prefix
+	 */
 	processingLinks(elem, selector, prefix) {
+		console.log(elem);
 		elem.querySelectorAll(selector).forEach((item) => {
 			item.addEventListener('click', (event) => {
+				console.log(item);
 				event.preventDefault();
 				window.location.hash = `${prefix}${item.dataset.href}`;
 			});

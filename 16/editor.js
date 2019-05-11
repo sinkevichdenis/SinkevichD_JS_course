@@ -1,16 +1,25 @@
 class Editor {
 	constructor(homeElem, selector) {
-		this.editingElements = [...homeElem.querySelectorAll(selector)];
-		if (!this.editingElements.length) {
-			this.editingElements = [homeElem];
-		}
+		this.editCondition = {
+			homeElem: homeElem,
+			selector: selector,
+		};
 		this.textarea = null;
 		this.buffer = null;
 		this.editingStatus = false;
 		this.init();
+		this.makeObserve(this.editCondition.homeElem);
+	}
+
+	updateCondition(condition) {
+		this.editingElements = [...condition.homeElem.querySelectorAll(condition.selector)];
+		if (!this.editingElements.length) {
+			this.editingElements = [condition.homeElem];
+		}
 	}
 
 	init() {
+		this.updateCondition(this.editCondition);
 		this.editingElements.forEach(elem => {
 			elem.addEventListener('click', (event) => {
 				event.stopPropagation();
@@ -30,6 +39,7 @@ class Editor {
 	}
 
 	makeEditable(elem) {
+		elem.classList.add('edit-td');
 		this.buffer = elem.innerHTML;
 		this.editingStatus = true;
 
@@ -39,8 +49,13 @@ class Editor {
 
 		this.textarea.value = this.buffer;
 		elem.innerHTML = '';
-		elem.appendChild(this.textarea);
-		elem.insertAdjacentHTML('beforeEnd', this.createButtons());
+
+		let td = document.createElement('td');
+		td.setAttribute('colspan', 3);
+		td.appendChild(this.textarea);
+		td.insertAdjacentHTML('beforeEnd', this.createButtons());
+
+		elem.appendChild(td);
 		this.textarea.focus();
 	}
 
@@ -52,10 +67,20 @@ class Editor {
 
 	endEdit(elem, flag) {
 		flag ? (elem.innerHTML = this.textarea.value) : (elem.innerHTML = this.buffer);
+		elem.classList.remove('edit-td');
 		this.editingStatus = false;
 	}
 
+	makeObserve(target){
+		const observer = new MutationObserver(() => this.init());
+		const config = {
+			subtree: true,
+			attributes: true,
+			childList: true,
+			characterData: true,
+		};
+		observer.observe(target, config);
+	}
 }
-
 new Editor(document.getElementById('bagua-table'), 'tr');
 new Editor(document.getElementById('bagua-table'), 'strong');

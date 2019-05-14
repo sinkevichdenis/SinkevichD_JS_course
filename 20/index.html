@@ -2,12 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ToDo list</title>
+    <style>
+        body{
+            padding: 10px;
+        }
+        select{
+            width: 250px;
+            height: 150px   ;
+        }
+        #todo{
+            display: flex;
+        }
+        .container{
+            margin: 10px;
+        }
+
+    </style>
 
 </head>
 <body>
-    <p>Кликните на ячейке для начала редактирования. Когда закончите -- нажмите OK или CANCEL.</p>
-
+    <h2>ToDo List</h2>
+    <label for="tableViewInput">Display like a table</label>
+    <input id="tableViewInput" type="checkbox">
+    <div id="todo">
+        <div class="active-container container">
+            <br>
+            <button id="addBtn">Add</button>
+            <button id="modifyBtn">Modify</button>
+            <button id="deleteBtn">Delete</button>
+            <button id="completeBtn">Complete</button>
+        </div>
+        <div class="archive-container container">
+            <br>
+            <button id="remakeBtn">Remake</button>
+        </div>
+    </div>
 
 <script src="dist/bundle.js"></script>
 </body>
